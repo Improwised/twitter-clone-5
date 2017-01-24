@@ -96,8 +96,6 @@ ALTER TABLE tbl_tweet OWNER TO riddhi;
 --
 
 COPY tbl_register (id, fullname, emailid, password) FROM stdin;
-3	riddhi	r@r.com	r
-4	a	a@a.com	a
 \.
 
 
@@ -113,9 +111,6 @@ SELECT pg_catalog.setval('tbl_register_id_seq', 4, true);
 --
 
 COPY tbl_tweet (t_id, "t_tweetText", "t_likeCount", t_time, t_userid) FROM stdin;
-1	riddhi	0	2017-01-24 10:42:24.31763	1
-3	Ankita	0	2017-01-24 12:10:35.817616	3
-4	hiii	0	2017-01-24 12:12:48.623916	3
 5	how r u????	0	2017-01-24 12:14:21.645484	4
 \.
 
