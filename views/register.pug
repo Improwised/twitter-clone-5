@@ -1,0 +1,23 @@
+extends ./layouts/main.pug
+
+block content
+
+  div.align-center
+    form#register(action='/home' method='POST')
+      div(align='center')
+        div(align='center')
+          h1 Join Today
+          div
+            input(type="text", name="fullname" id="fullname" placeholder="Full name")
+          div
+            input(type="email", name="emailid" id="emailid" placeholder="Email-Id")
+          div
+            input(type="password", name="password" id="password" placeholder="Password")
+          div
+            input.button(type="submit", name="Submit")
+
+  script.
+    $(body).css("background-color","#66ccff");
+
+
+
