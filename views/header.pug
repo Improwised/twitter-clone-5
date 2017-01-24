@@ -7,7 +7,7 @@ block content
   .navbar-collapse.collapse.navbar-default
     ul.nav.navbar-nav.navbar-left
       li#nav-home
-        a(href='#')
+        a(href='/header')
           i.fa.fa-home.fa-3x
 
           span.nav-icon-text Home
@@ -53,12 +53,20 @@ block content
       a#btnprofile(href='/profile')
         span.fa.fa-user.fa-3x
 
+
+
   .container
-    .row
+    .column
+
+      .col-md-4
+
       each book in res
-        .col-md-4
+        .row
           .well
             p
+              span= book.fullname
+              br
+              br
               span= book.t_tweetText
               br
               br
