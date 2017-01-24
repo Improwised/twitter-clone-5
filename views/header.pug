@@ -1,0 +1,79 @@
+extends ./layouts/main.pug
+
+block content
+  //- p
+  //-   each book in tbl_tweet
+  //-     span= book.t_id
+  .navbar-collapse.collapse.navbar-default
+    ul.nav.navbar-nav.navbar-left
+      li#nav-home
+        a(href='#')
+          i.fa.fa-home.fa-3x
+
+          span.nav-icon-text Home
+      li#nav-notification
+        a(href='#')
+          i.fa.fa-bell.fa-3x
+
+          span.nav-icon-text Notification
+      li#nav-meassage
+        a(href='#')
+          i.fa.fa-comment.fa-3x
+
+          span.nav-icon-text Messages
+
+    .form-group
+      a#btnsignout(href='#')
+        span.fa.fa-sign-out.fa-3x
+
+
+    //tweet button with popup window
+    button#myBtn.btn.btn-info.btn-lg(type='button', data-toggle='modal', data-target='#exampleModal') Tweet
+
+    #exampleModal.modal.fade(role='dialog', tabindex="-1",aria-labelledby="exampleModalLabel" aria-hidden="true")
+      .modal-dialog
+        // Modal content
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal') ×
+            h4.modal-title Compose New Tweet
+          .modal-body
+            form(id='tweet', method='post', action='/header')
+              .form-group
+                label(for='comment') Whats Happening???
+                textarea#comment.form-control(rows='5',name='comment')
+                a(href='/header')
+                  button.btn.btn-primary(type='submit') Tweet
+
+          .modal-footer
+            button.btn.btn-default(type='button', data-dismiss='modal') Close
+
+
+    .form-group
+      a#btnprofile(href='/profile')
+        span.fa.fa-user.fa-3x
+
+  .container
+    .row
+      each book in res
+        .col-md-4
+          .well
+            p
+              span= book.t_tweetText
+              br
+              br
+              span= book.t_time
+              br
+              br
+              a(href='/header')#like.span.fa.fa-heart.fa-1x
+              |  &nbsp
+              span= book.t_likeCount
+      //- .col-md-4
+      //-   .well
+      //-     p
+      //-       each book in tbl_tweet
+      //-         span= book.t_time
+
+
+
+
