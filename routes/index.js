@@ -24,6 +24,7 @@ router.get('/', (req, res, next) => {
   });
 });
 
+
 router.get('/register', (req, res, next) => {
   res.render('register');
 });
@@ -105,6 +106,50 @@ router.get('/logout', (req, res, next) => {
       }
     });
 });
+
+router.get('/index', (req, res, next) => {
+  res.render('index');
+});
+router.get('/header', (req, res, next) => {
+
+  const query = DB.builder()
+    .select()
+      .from('tbl_tweet')
+      .toParam()
+    DB.executeQuery(query, (error, results) => {
+      if (error) {
+        next(error);
+        return;
+      }
+
+
+    res.render('header',{res:results.rows});
+   })
+
+});
+
+router.get('/profile', (req, res, next) => {
+  res.render('profile');
+});
+
+router.post('/header', (req, res, next) => {
+
+  const query = DB.builder()
+    .insert()
+      .into('tbl_tweet')
+      .set('t_tweetText', req.body.comment)
+      .set('t_likeCount',"0")
+      .set('t_time', "now()")
+      .toParam()
+  DB.executeQuery(query, (error, results) => {
+    if (error) {
+      next(error);
+      return;
+    }
+    res.redirect('/header');
+});
+});
+
 
 
 module.exports = router;
