@@ -15,14 +15,14 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner:
 --
 
 CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner:
 --
 
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
@@ -137,14 +137,6 @@ SELECT pg_catalog.setval('tbl_login_l_id_seq', 1, false);
 --
 
 COPY tbl_tweet (t_id, "t_tweetText", "t_likeCount", t_time) FROM stdin;
-1	abc	\N	2017-01-19 13:01:27.066544
-160	aaa	12	2017-01-23 12:18:09.998644
-161	Riddhi	0	2017-01-23 13:42:30.27655
-162	Ankita	0	2017-01-24 05:10:23.853523
-163	aaabbbbccc	0	2017-01-24 05:11:17.11665
-164	zzz	0	2017-01-24 05:12:45.955474
-165	xxx	0	2017-01-24 05:14:16.611531
-166	RIDDHI	0	2017-01-24 05:14:57.530019
 \.
 
 
