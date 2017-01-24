@@ -1,0 +1,29 @@
+extends ./layouts/main.pug
+
+block content
+  nav.navbar.navbar-inverse.navbar-fixed-top
+    .container
+      .navbar-header
+        button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
+          span.sr-only Toggle navigation
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+        a.navbar-brand(href='homepage') Twitter
+      #navbar.navbar-collapse.collapse
+        a.button.btn.btn-success(href='/login', role='button' style='padding-top: 15px;') Sign in
+        a.button.btn.btn-success(href='/register', role='button' style='padding-top: 15px;') SignUp
+  .jumbotron
+    .container
+      img.img-rounded(src='https://www.jocolibrary.org/sites/default/files/styles/flexslider_full/public/features/F_2015_Hands_0.jpg?itok=ZiXF0itW', alt='Cinque Terre', width='1200', height='700' style="opacity:0.4;filter:alpha(opacity=40)")
+  .container
+    //- // Example row of columns
+    .row
+      .col-md-4
+
+    hr
+    footer
+      p © 2016 Twitter, Inc.
+
+  //- // Placed at the end of the document so the pages load faster
+

@@ -424,7 +424,7 @@ ul.twPc-Arrange {
     text-transform: uppercase;
     transition: color 0.15s ease-in-out 0s;
 }
-a:hover#like {
+/*a:hover#like {
   color: #ff0000;
 
 }
@@ -433,5 +433,4 @@ a:visited{
 }
 a:link{
   /*color: #ff0000;*/
-}
-
+/*}*/

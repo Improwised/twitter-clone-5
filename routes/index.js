@@ -97,11 +97,12 @@ router.post('/home', (req, res, next) => {
 });
 
 router.get('/logout', (req, res, next) => {
+  console.log("----->>>>", req.session);
   req.session.destroy(function(err) {
       if(err) {
         console.log(err);
       } else {
-        console.log("destroyed ----->>>>");
+        console.log("destroyed ----->>>>", req.session);
         res.render('login');
       }
     });
@@ -111,20 +112,23 @@ router.get('/index', (req, res, next) => {
   res.render('index');
 });
 router.get('/header', (req, res, next) => {
+  if(req.session.emailid) {
+    const query = DB.builder()
+      .select()
+        .from('tbl_tweet')
+        .toParam()
+      DB.executeQuery(query, (error, results) => {
+        if (error) {
+          next(error);
+          return;
+        }
 
-  const query = DB.builder()
-    .select()
-      .from('tbl_tweet')
-      .toParam()
-    DB.executeQuery(query, (error, results) => {
-      if (error) {
-        next(error);
-        return;
-      }
 
-
-    res.render('header',{res:results.rows});
+      res.render('header',{res:results.rows});
    })
+  } else  {
+    res.render('login');
+  }
 
 });
 
@@ -173,6 +177,9 @@ router.post('/header', (req, res, next) => {
 
 
 // })
+router.get('/homepage', (req, res, next) => {
+  res.render('homepage');
+});
 
 
 module.exports = router;
