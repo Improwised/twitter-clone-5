@@ -5,6 +5,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+var session = require('express-session')
 
 // Load dotenv config
 if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
@@ -31,6 +32,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+  secret: 'password',
+  resave: false,
+  saveUninitialized: true
+}))
 
 app.use('/', routes);
 app.use('/header', routes);

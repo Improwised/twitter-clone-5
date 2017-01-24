@@ -1,0 +1,19 @@
+extends ./layouts/main.pug
+
+block content
+  h1= Login
+
+  div.align-center
+    form#login(action='/login' method='POST')
+      div(align='center')
+        div(align='center')
+          h1 Login
+          div#divemail
+            input(type = "text", name = "emailid" id = "emailid" placeholder="Email-Id")
+          div
+            input(type = "text", name = "password" id = "password" placeholder="Password")
+          div
+            input.button(type="submit", name="Submit")
+
+  script.
+    $(body).css("background-color","#66ccff");
