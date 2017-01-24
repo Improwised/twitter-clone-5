@@ -55,7 +55,7 @@ router.post('/register', (req, res, next) => {
       next(error);
       return;
     }
-  res.render('register');
+  res.redirect('/login');
   });
 });
 
@@ -80,7 +80,7 @@ router.post('/login', (req, res, next) => {
       req.session.emailid = fetchemailid;
       console.log(req.session);
       console.log("Data matched");
-      return res.redirect("home");
+      return res.redirect("header");
     } else {
       console.log("Data not matched")
       res.render('login');
@@ -101,7 +101,7 @@ router.get('/logout', (req, res, next) => {
       if(err) {
         console.log(err);
       } else {
-        console.log("destroyed ----->>>>", req.session.id);
+        console.log("destroyed ----->>>>");
         res.render('login');
       }
     });
@@ -150,6 +150,29 @@ router.post('/header', (req, res, next) => {
 });
 });
 
+// router.post('/likecount', (req, res, next) =>{
+//   const query = DB.builder()
+//     .update()
+//       .table("tbl_tweet")
+//       .set('t_likeCount', 't_likeCount + 1')
+//   DB.executeQuery(query, (error, updatedBooks) => {
+//     if (error) {
+//       return next(error);
+//     }
+//     res.redirect('/');
+//   });
+// });
+  // .select()
+  //     .from('tbl_tweet')
+  //     .field('t_likeCount')
+  //     .toParam()
+  // executeQuery(query, (error, books) => {
+  //   if (error) {
+  //     return next(error);
+  //   }
+
+
+// })
 
 
 module.exports = router;
