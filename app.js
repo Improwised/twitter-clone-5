@@ -33,7 +33,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-
+app.use('/header', routes);
 // Catch 404 errors
 // Forwarded to the error handlers
 app.use((req, res, next) => {
