@@ -1,43 +1,28 @@
 extends ./layouts/main.pug
-//- include ./header.pug
+
 block content
-  //- h1 hello
-  .container
-    .row
-      h1 Twitter Profile Card
-      p You can use with Twitter API, bot or manual.
-      // code start
-      .twPc-div
-        a.twPc-bg.twPc-block
-        div
-          .twPc-button
-            // Twitter Button | you can get from: https://about.twitter.com/tr/resources/buttons#follow
-            a.twitter-follow-button(href='#', data-show-count='false', data-size='large', data-show-screen-name='false', data-dnt='true') Follow @mertskaplan
-            script.
-              !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
-            // Twitter Button
-          a.twPc-avatarLink(title='Mert Salih Kaplan', href='#')
-            img.twPc-avatarImg(alt='Mert Salih Kaplan', src='#')
-          .twPc-divUser
-            .twPc-divName
-              a(href='#') Mert S. Kaplan
-            span
-              a(href='#')
-                | @
-                span mertskaplan
-          .twPc-divStats
-            ul.twPc-Arrange
-              li.twPc-ArrangeSizeFit
-                a(href='#', title='9.840 Tweet')
-                  span.twPc-StatLabel.twPc-block Tweets
-                  span.twPc-StatValue 9.840
-              li.twPc-ArrangeSizeFit
-                a(href='#', title='885 Following')
-                //- a(href='https://twitter.com/mertskaplan/following', title='885 Following')
-                  span.twPc-StatLabel.twPc-block Following
-                  span.twPc-StatValue 885
-              li.twPc-ArrangeSizeFit
-                a(href='#', title='1.810 Followers')
-                  span.twPc-StatLabel.twPc-block Followers
-                  span.twPc-StatValue 1.810
-      // code end
+
+  div.align-center
+    form#profile(action='/profile' method='POST')
+      div(align='center')
+        each r in res
+          div(align='center')
+            h1 Update Your Profile
+            div#divregistername
+              label Name
+              input(type="text", name="fullname" id="fullname" value=r.fullname)
+            div
+              label Email-Id
+              input(type="email", name="emailid" id="emailid" value=r.emailid)
+            div#divregisterpassword
+              label Password
+              input(type="text", name="password" id="password" value=r.password)
+            div
+              input.button(type="submit", name="Submit")
+
+
+  script.
+    $(body).css("background-color","#cceeff");
+
+
+

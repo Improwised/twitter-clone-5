@@ -53,33 +53,22 @@ block content
       a#btnprofile(href='/profile')
         span.fa.fa-user.fa-3x
 
-
-
   .container
-
-
-      each book in res
-        .row
-          .well
-            p
-              span= book.fullname
-              br
-              br
-              span= book.t_tweetText
-              br
-              br
-              span= book.t_time
-              br
-              br
-              a(href='#')#like.span.fa.fa-heart.fa-1x
-              |  &nbsp
-              span= book.t_likeCount
-      //- .col-md-4
-      //-   .well
-      //-     p
-      //-       each book in tbl_tweet
-      //-         span= book.t_time
-
-
+    each book in res
+      .row
+        .well
+          p
+            span= book.fullname
+            br
+            br
+            span= book.t_tweetText
+            br
+            br
+            span= book.t_time
+            br
+            br
+            a(href='#')#like.span.fa.fa-heart.fa-1x
+            |  &nbsp;
+            span= book.t_likeCount
 
 

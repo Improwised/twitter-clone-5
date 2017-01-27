@@ -9,7 +9,7 @@ body, html{
   font-family: 'Sniglet', cursive;
 }
 
-h1{
+h1 {
   font-weight: normal;
   font-size: 4em;
   font-family: 'Raleway', sans-serif;
@@ -21,17 +21,18 @@ h1{
 
 }
 
-header{
+header {
   height: 160px;
   background: url('http://www.geertjanhendriks.nl/codepen/form/golf.png') repeat-x bottom;
 }
 
-#form{
+#form {
   height: 100%;
   background-color: #98d4f3;
   overflow: hidden;
   position: relative;
 }
+
 form{
   margin: 0 auto;
   width: 500px;
@@ -41,10 +42,12 @@ form{
 
 
 }
-label, input, textarea{
+
+label, input, textarea {
   display: block;
 }
-input, textarea{
+
+input, textarea {
   width: 500px;
   border: none;
   border-radius: 20px;
@@ -61,17 +64,18 @@ input, textarea{
   -webkit-box-sizing:border-box;
   -moz-box-sizing:border-box;
   box-sizing:border-box;
-
 }
-input:focus, textarea:focus{
+
+input:focus, textarea:focus {
   border: solid 3px #77bde0;
 }
 
-textarea{
+textarea {
   height: 100px;
   resize: none;
   overflow: auto;
 }
+
 input[type="submit"]{
   background-color: #F90;
   color: white;
@@ -85,21 +89,32 @@ input[type="submit"]{
   -o-transition: background-color 0.5s;
   transition: background-color 0.5s;
 }
-input[type="submit"]:hover{
+
+input[type="submit"]:hover {
   background-color: #e58f0e;
 
 }
-label{
+
+label {
   font-size: 1.5em;
   margin-top: 20px;
   padding-left: 20px;
 }
 
-#divemail {
-  margin-bottom: 50px;
+#divlogin {
+  margin-top: 30px;
+  margin-bottom: 15px;
 }
 
+#divregistername {
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
 
+#divregisterpassword {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
 
 /*navbar cs*/
 .navbar {
@@ -135,7 +150,7 @@ label{
   margin: 0;
   padding: 0;
   text-align: center;
-  font-family: Arial ;
+  font-family: Arial;
 }
 
 .navbar-nav > li > a:hover .nav-icon-text {
@@ -155,79 +170,6 @@ label{
   min-width: 95px;
   text-align: center;
 }
-/*
-.bgColor {
-  background-color: #66ccff;
-}*/
-
-/*Riddhi*/
-/*  .navbar {
-    min-height: 80px;
-    border-radius: 0;
-  }
-
-  .navbar-default {
-    background-color: #98172c;
-    border-color: #98172c;
-  }
-
-  .fa {
-    color: #8c8c8c;
-  }
-
-  .mojo-logo {
-    max-height: 60px;
-  }
-
-  #nav-home, #nav-notification, #nav-message {
-    display: inline;
-
-  }
-  #nav-twitter{
-    display:inline;
-
-  }
-  .navbar-nav > li > a {
-    padding-bottom: 20px;
-    position: relative;
-    transform: translateX(-50%);
-    left: 50%;
-  }
-
-  .nav-icon-text {
-    display: inline;
-    color: #8c8c8c;
-    font-size: 20px;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-    font-family: Arial ;
-  }
-
-  .navbar-nav > li > a:hover .nav-icon-text {
-    display: inline;
-    color:#00ccff;
-    font-size: 20px;
-  }
-
-  .nav > li > a {
-    padding: 10px 0px;
-
-  }
-
-  .nav > li {
-    padding-top: 10px;
-    min-height: 99px;
-    min-width: 95px;
-    text-align: center;
-  }
-
-  .navbar-form{
-    margin-top: 30px;
-  }
-
-
-/*style for searchbar */
 
 .input-group{
   vertical-align: center;
@@ -245,20 +187,19 @@ label{
 
 }
 
-/*style for popup*/
+
  .modal{
- /*   display: block;*/
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  display: none;
+  position: fixed;
+  z-index: 1;
   padding-top: 10px;
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
  }
  .modal-dialog {
   top: 20%;
@@ -268,7 +209,7 @@ label{
  .modal-content {
   position: relative;
   background-color: #fefefe;
-  margin: auto; /* 15% from the top and centered */
+  margin: auto;
   padding: 0px;
   border: 1px solid #888;
   width: 80%;
@@ -284,12 +225,10 @@ label{
   font-weight: bold;
 }
 
-/*css for dropdown */
 .dropdown {
     position: relative;
     display: inline-block;
     float: right;
-    /*margin: 10px;*/
     margin-right: 10px;
 }
 
@@ -299,30 +238,27 @@ label{
     background-color: #f9f9f9;
     min-width: 180px;
     margin: 50px;
-
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-
 }
 
 .dropdown:hover .dropdown-content {
     display: block;
-
 }
 
 .desc {
     padding: 15px;
     text-align: center;
 }
-#btnprofile{
+
+#btnprofile {
 
   display: block;
   float: right;
   margin-right: 20px;
-
   color: #00a3cc;
 }
 
-#btnsignout{
+#btnsignout {
   margin-left: 20px;
   display: block;
   float: right;
@@ -330,15 +266,13 @@ label{
   color: #00a3cc;
 }
 
-
-/*css for profile page */
 .twPc-div {
   background: #fff none repeat scroll 0 0;
   border: 1px solid #e1e8ed;
   border-radius: 6px;
   height: 200px;
- /* max-width: 340px;*//* // orginal twitter width: 290px;*/
 }
+
 .twPc-bg {
     background-image: url("https://pbs.twimg.com/profile_banners/50988711/1384539792/600x200");
     background-position: 0 50%;
@@ -348,14 +282,17 @@ label{
     height: 95px;
     width: 100%;
 }
+
 .twPc-block {
     display: block !important;
 }
+
 .twPc-button {
     margin: -35px -10px 0;
     text-align: right;
     width: 100%;
 }
+
 .twPc-avatarLink {
     background-color: #fff;
     border-radius: 6px;
@@ -366,6 +303,7 @@ label{
     padding: 1px;
     vertical-align: bottom;
 }
+
 .twPc-avatarImg {
     border: 2px solid #fff;
     border-radius: 7px;
@@ -374,21 +312,26 @@ label{
     height: 72px;
     width: 72px;
 }
+
 .twPc-divUser {
     margin: 5px 0 0;
 }
+
 .twPc-divName {
     font-size: 18px;
     font-weight: 700;
     line-height: 21px;
 }
+
 .twPc-divName a {
     color: inherit !important;
 }
+
 .twPc-divStats {
     margin-left: 11px;
     padding: 10px 0;
 }
+
 .twPc-Arrange {
     box-sizing: border-box;
     display: table;
@@ -397,6 +340,7 @@ label{
     padding: 0;
     table-layout: auto;
 }
+
 ul.twPc-Arrange {
     list-style: outside none none;
     margin: 0;
@@ -407,15 +351,18 @@ ul.twPc-Arrange {
     padding: 0;
     vertical-align: top;
 }
+
 .twPc-ArrangeSizeFit a:hover {
     text-decoration: none;
 }
+
 .twPc-StatValue {
     display: block;
     font-size: 18px;
     font-weight: 500;
     transition: color 0.15s ease-in-out 0s;
 }
+
 .twPc-StatLabel {
     color: #8899a6;
     font-size: 10px;
@@ -424,13 +371,4 @@ ul.twPc-Arrange {
     text-transform: uppercase;
     transition: color 0.15s ease-in-out 0s;
 }
-/*a:hover#like {
-  color: #ff0000;
 
-}
-a:visited{
-  color:#ff0000;
-}
-a:link{
-  /*color: #ff0000;*/
-/*}*/
