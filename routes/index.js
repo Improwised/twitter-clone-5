@@ -1,7 +1,9 @@
 const express = require('express');
 const DB = require('../helpers/db');
 const router = express.Router();
+
 // GET: /
+
 router.get('/', (req, res, next) => {
   // Constuct and run a simple query
   const query = DB.builder()
@@ -13,23 +15,27 @@ router.get('/', (req, res, next) => {
       next(error);
       return;
     }
-    res.render('welcome', {
-      // title: `Time from the database is ${results.rows[0].now}`,
+    res.render('index', {
+       title: `Time from the database is ${results.rows[0].now}`,
     });
   });
 });
+
 router.get('/register', (req, res, next) => {
   res.render('register');
 });
+
 router.get('/login', (req, res, next) => {
   res.render('login');
 });
+
 router.get('/home', (req, res, next) => {
   var session = req.session;
   console.log(req.session)
   console.log('Welcome' + req.session.emailid + 'to your account');
   return res.render('home');
 });
+
 router.post('/register', (req, res, next) => {
   const query = DB.builder()
     .insert()
@@ -46,6 +52,7 @@ router.post('/register', (req, res, next) => {
   res.redirect('/login');
   });
 });
+
 router.post('/login', (req, res, next) => {
   const fetchemailid = req.body.emailid;
   const fetchpassword = req.body.password;
@@ -74,11 +81,13 @@ router.post('/login', (req, res, next) => {
     }
   });
 });
+
 router.post('/home', (req, res, next) => {
   var session = req.session;
   res.write('Welcome' + session.emailid + 'to your account');
   // res.render('login');
 });
+
 router.get('/logout', (req, res, next) => {
   console.log("----->>>>", req.session);
   req.session.destroy(function(err) {
@@ -90,13 +99,17 @@ router.get('/logout', (req, res, next) => {
       }
     });
 });
+
 router.get('/index', (req, res, next) => {
   res.render('index');
 });
+
+
 router.get('/header', (req, res, next) => {
-  console.log("jksbdkjdbsbd");
+  let query
   if(req.session.emailid) {
-    const query = DB.builder()
+
+  query = DB.builder()
         .select()
           .field('fullname')
           .field('t_tweetText')
@@ -104,21 +117,47 @@ router.get('/header', (req, res, next) => {
           .from('tbl_register','r')
           .join(DB.builder().select().from('tbl_tweet'),'t','t.t_userid = r.id')
           .toParam()
-      DB.executeQuery(query, (error, results) => {
+
+
+      DB.executeQuery(query, (error, tweets) => {
         if (error) {
           next(error);
           return;
+          }
+
+
+        query = DB.builder()
+            .select()
+            .from('tbl_register','r')
+            .field('fullname')
+            .field('id')
+            .where('id != ?',req.session.userid)
+            .toParam();
+      console.log(query);
+      DB.executeQuery(query, (error, follow) => {
+        if (error) {
+          next(error);
+          return;
+
         }
-        console.log(results.rows);
-      res.render('header',{res:results.rows});
-   })
-  } else  {
+
+
+       // console.log(results.rows);
+      res.render('header',{
+        tweets : tweets.rows,
+        follow : follow.rows
+      });
+    });
+  });
+ } else  {
     res.render('login');
   }
 });
+
 router.get('/profile', (req, res, next) => {
   res.render('profile');
 });
+
 router.post('/header', (req, res, next) => {
   const query = DB.builder()
     .insert()
@@ -136,4 +175,48 @@ router.post('/header', (req, res, next) => {
     res.redirect('/header');
 });
 });
+
+router.post('/follow', (req, res, next) => {
+
+  const session = req.session;
+
+    const query = DB.builder()
+        .insert()
+        .into('tbl_follower')
+        .set('f_userid',session.userid)
+        .set('f_followerid',req.body.myfollow)
+        .toParam();
+
+  DB.executeQuery(query, (error, results) => {
+    if (error) {
+      next(error);
+      return;
+    }
+        // console.log(results.rows);
+    res.redirect('/header');
+   });
+
+});
+
+router.post('/unfollow', (req, res, next) => {
+  console.log("jksbdkjdbsbd");
+  const session = req.session;
+
+    const query = DB.builder()
+        .delete()
+        .from('tbl_follower')
+        .where('f_followerid=?',req.body.myunfollow)
+        .toParam();
+
+  DB.executeQuery(query, (error, results) => {
+    if (error) {
+      next(error);
+      return;
+    }
+        // console.log(results.rows);
+    res.redirect('/header');
+   });
+
+});
+
 module.exports = router;

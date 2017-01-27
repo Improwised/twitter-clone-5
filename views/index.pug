@@ -1,16 +1,16 @@
 extends ./layouts/main.pug
 
 block content
-  //- p
-  //-   | #{tbl_tweet}
-  //- .container
-  //-   .row
-  //-     .col-md-4
-  //-       .well
-  //-         p
-  //-           each book in tbl_tweet
-  //-             span= book.t_tweetText
-  //-             span= book.t_time
+  .container
+    .well
+      div.start-temp
+        h1#title Welcome to Twitter!!!
+        div.paragraph
+          p Use this document as a way to quickly start any new project.
+          p All you get is this text and a mostly barebones HTML document.
+          p Stay connected with people
 
-
-
+        form(action='/login')
+          button.btn1.btn.btn-info Login
+        form(action='/register')
+          button.btn1.btn.btn-info SignUp

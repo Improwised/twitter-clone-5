@@ -2,22 +2,36 @@ extends ./layouts/main.pug
 
 block content
 
-  div.align-center
-    form#register(action='/register' method='POST')
-      div(align='center')
-        div(align='center')
-          h1 Join Today
-          div
-            input(type="text", name="fullname" id="fullname" placeholder="Full name")
-          div
-            input(type="email", name="emailid" id="emailid" placeholder="Email-Id")
-          div
-            input(type="password", name="password" id="password" placeholder="Password")
-          div
-            input.button(type="submit", name="Submit")
+  //- div.align-center
+  //-   form#register(action='/register' method='POST')
+  //-     div(align='center')
+  //-       div(align='center')
+  //-         h1 Join Today
+  //-         div
+  //-           input(type="text", name="fullname" id="fullname" placeholder="Full name")
+  //-         div
+  //-           input(type="email", name="emailid" id="emailid" placeholder="Email-Id")
+  //-         div
+  //-           input(type="password", name="password" id="password" placeholder="Password")
+  //-         div
+  //-           input.button(type="submit", name="Submit")
 
-  script.
-    $(body).css("background-color","#66ccff");
+  //- script.
+  //-   $(body).css("background-color","#66ccff");
+
+  .container
+    .wrapper
+      form.form-signup(action='/register' method='POST')
+        h2.form-signin-heading Join Today
+        br
+        br
+        input.form-control(type='text', name='fullname', placeholder='Enter your name', required='', autofocus='',id='fullname')
+        input.form-control(type='email', name='emailid', placeholder='Email-Id', required='', id="emailid")
+        input.form-control(type='password', name='password', placeholder='password', required='', id="password")
+
+        button.btn.btn-lg.btn-info.btn-block(type='submit', name='submit') SignUp
+        br
+        br
 
 
 

@@ -43,7 +43,7 @@ block content
                 label(for='comment') Whats Happening???
                 textarea#comment.form-control(rows='5',name='comment')
                 a(href='/header')
-                  button.btn.btn-primary(type='submit') Tweet
+                  button#tweetbtn.btn-info(type='submit') Tweet
 
           .modal-footer
             button.btn.btn-default(type='button', data-dismiss='modal') Close
@@ -56,30 +56,43 @@ block content
 
 
   .container
+    .row
+      .col-md-3
+        .well
+          //- p
+          //-   each book in tweets
+          //-     span= book.fullname
+      .col-md-4
+        each book in tweets
+          .row
+            .well
+              p
+                span= book.fullname
+                br
+                br
+                span= book.t_tweetText
+                br
+                br
+                span= book.t_time
+                br
+                br
+                a(href='#')#like.span.fa.fa-heart.fa-1x
+                |  &nbsp
+                span= book.t_likeCount
 
-
-      each book in res
-        .row
+      .col-md-3
+        each name in follow
           .well
-            p
-              span= book.fullname
+            span= name.fullname
+            form(method='post', action='/follow')
               br
+              span.fa.fa-user.fa-3x
               br
-              span= book.t_tweetText
-              br
-              br
-              span= book.t_time
-              br
-              br
-              a(href='#')#like.span.fa.fa-heart.fa-1x
-              |  &nbsp
-              span= book.t_likeCount
-      //- .col-md-4
-      //-   .well
-      //-     p
-      //-       each book in tbl_tweet
-      //-         span= book.t_time
-
+              input(type='hidden', name='myfollow', value = name.id)
+              button(type='submit').fa.fa-hand-o-right.fa-2x
+            form(method='post', action='/unfollow')
+              input(type='hidden', name='myunfollow', value = name.id)
+              button(type='submit').fa.fa-times.fa-2x
 
 
 
