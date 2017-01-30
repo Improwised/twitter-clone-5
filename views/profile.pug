@@ -1,43 +1,70 @@
 extends ./layouts/main.pug
 //- include ./header.pug
 block content
-  //- h1 hello
-  .container
-    .row
-      h1 Twitter Profile Card
-      p You can use with Twitter API, bot or manual.
-      // code start
-      .twPc-div
-        a.twPc-bg.twPc-block
-        div
-          .twPc-button
-            // Twitter Button | you can get from: https://about.twitter.com/tr/resources/buttons#follow
-            a.twitter-follow-button(href='#', data-show-count='false', data-size='large', data-show-screen-name='false', data-dnt='true') Follow @mertskaplan
-            script.
-              !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
-            // Twitter Button
-          a.twPc-avatarLink(title='Mert Salih Kaplan', href='#')
-            img.twPc-avatarImg(alt='Mert Salih Kaplan', src='#')
-          .twPc-divUser
-            .twPc-divName
-              a(href='#') Mert S. Kaplan
-            span
-              a(href='#')
-                | @
-                span mertskaplan
-          .twPc-divStats
-            ul.twPc-Arrange
-              li.twPc-ArrangeSizeFit
-                a(href='#', title='9.840 Tweet')
-                  span.twPc-StatLabel.twPc-block Tweets
-                  span.twPc-StatValue 9.840
-              li.twPc-ArrangeSizeFit
-                a(href='#', title='885 Following')
-                //- a(href='https://twitter.com/mertskaplan/following', title='885 Following')
-                  span.twPc-StatLabel.twPc-block Following
-                  span.twPc-StatValue 885
-              li.twPc-ArrangeSizeFit
-                a(href='#', title='1.810 Followers')
-                  span.twPc-StatLabel.twPc-block Followers
-                  span.twPc-StatValue 1.810
-      // code end
+
+  .navbar-collapse.collapse.navbar-default
+    ul.nav.navbar-nav.navbar-left
+      li#nav-home
+        a(href='/header')
+          i.fa.fa-home.fa-3x
+
+          span.nav-icon-text Home
+      li#nav-notification
+        a(href='#')
+          i.fa.fa-bell.fa-3x
+
+          span.nav-icon-text Notification
+      li#nav-meassage
+        a(href='#')
+          i.fa.fa-comment.fa-3x
+
+          span.nav-icon-text Messages
+
+    .form-group
+      a#btnsignout(href='/logout')
+        span.fa.fa-sign-out.fa-3x
+
+
+    //tweet button with popup window
+    button#myBtn.btn.btn-info.btn-lg(type='button', data-toggle='modal', data-target='#exampleModal') Tweet
+
+    #exampleModal.modal.fade(role='dialog', tabindex="-1",aria-labelledby="exampleModalLabel" aria-hidden="true")
+      .modal-dialog
+        // Modal content
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal') ×
+            h4.modal-title Compose New Tweet
+          .modal-body
+            form(id='tweet', method='post', action='/header')
+              .form-group
+                label(for='comment') Whats Happening???
+                textarea#comment.form-control(rows='5',name='comment')
+                a(href='/header')
+                  button#tweetbtn.btn-info(type='submit') Tweet
+
+          .modal-footer
+            button.btn.btn-default(type='button', data-dismiss='modal') Close
+
+
+    .form-group
+      a#btnprofile(href='/profile')
+        span.fa.fa-user.fa-3x
+        br
+        br
+
+  .col-md-3
+    each name in follow
+      .well
+        span= name.fullname
+        form(method='post', action='/follow')
+          br
+          span.fa.fa-user.fa-3x
+          br
+          //- input(type='hidden', name='myfollow', value = name.id)
+          //- button(type='submit').fa.fa-hand-o-right.fa-2x
+        form(method='post', action='/unfollow')
+          input(type='hidden', name='myunfollow', value = name.id)
+          button(type='submit').fa.fa-times.fa-2x
+
+

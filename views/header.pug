@@ -1,9 +1,7 @@
 extends ./layouts/main.pug
 
 block content
-  //- p
-  //-   each book in tbl_tweet
-  //-     span= book.t_id
+
   .navbar-collapse.collapse.navbar-default
     ul.nav.navbar-nav.navbar-left
       li#nav-home
@@ -59,15 +57,22 @@ block content
     .row
       .col-md-3
         .well
-          //- p
-          //-   each book in tweets
-          //-     span= book.fullname
-      .col-md-4
+          img(src='http://www.medplaya.es/images/logo/user.png',style="height:150px; width:150px; margin-left:40px")
+          p
+            each user in username
+              h3= user.fullname
+
+
+
+
+
+      .col-md-6
         each book in tweets
           .row
             .well
               p
-                span= book.fullname
+                h4= book.fullname
+                h4 tweeted
                 br
                 br
                 span= book.t_tweetText
@@ -80,6 +85,8 @@ block content
                 |  &nbsp
                 span= book.t_likeCount
 
+
+
       .col-md-3
         each name in follow
           .well
@@ -90,9 +97,9 @@ block content
               br
               input(type='hidden', name='myfollow', value = name.id)
               button(type='submit').fa.fa-hand-o-right.fa-2x
-            form(method='post', action='/unfollow')
-              input(type='hidden', name='myunfollow', value = name.id)
-              button(type='submit').fa.fa-times.fa-2x
+            //- form(method='post', action='/unfollow')
+            //-   input(type='hidden', name='myunfollow', value = name.id)
+            //-   button(type='submit').fa.fa-times.fa-2x
 
 
 

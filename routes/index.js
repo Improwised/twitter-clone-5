@@ -116,6 +116,7 @@ router.get('/header', (req, res, next) => {
           .field('t_time')
           .from('tbl_register','r')
           .join(DB.builder().select().from('tbl_tweet'),'t','t.t_userid = r.id')
+
           .toParam()
 
 
@@ -126,14 +127,15 @@ router.get('/header', (req, res, next) => {
           }
 
 
-        query = DB.builder()
-            .select()
-            .from('tbl_register','r')
-            .field('fullname')
-            .field('id')
-            .where('id != ?',req.session.userid)
-            .toParam();
-      console.log(query);
+  query = DB.builder()
+      .select()
+      .from('tbl_register','r')
+      .field('fullname')
+      .field('id')
+      .where('id != ?',req.session.userid)
+      .toParam();
+    console.log(query);
+
       DB.executeQuery(query, (error, follow) => {
         if (error) {
           next(error);
@@ -141,13 +143,28 @@ router.get('/header', (req, res, next) => {
 
         }
 
+  query = DB.builder()
+      .select()
+      .from('tbl_register','r')
+      .field('fullname')
+      .where('id = ?',req.session.userid)
+      .toParam();
+    console.log(query);
+
+      DB.executeQuery(query, (error, username) => {
+        if (error) {
+          next(error);
+          return;
+        }
 
        // console.log(results.rows);
       res.render('header',{
         tweets : tweets.rows,
-        follow : follow.rows
+        follow : follow.rows,
+        username : username.rows,
       });
     });
+  });
   });
  } else  {
     res.render('login');
@@ -155,7 +172,25 @@ router.get('/header', (req, res, next) => {
 });
 
 router.get('/profile', (req, res, next) => {
-  res.render('profile');
+  query = DB.builder()
+      .select()
+      .from('tbl_register','r')
+      .field('fullname')
+      .field('id')
+      .where('id != ?',req.session.userid)
+      .toParam();
+    console.log(query);
+
+      DB.executeQuery(query, (error, follow) => {
+        if (error) {
+          next(error);
+          return;
+      }
+
+  res.render('profile',{
+    follow : follow.rows,
+  });
+});
 });
 
 router.post('/header', (req, res, next) => {
@@ -219,4 +254,24 @@ router.post('/unfollow', (req, res, next) => {
 
 });
 
+router.get('/followername', (req, res, next) => {
+
+  query = DB.builder()
+        .select()
+          .field('fullname')
+          .field('t_tweetText')
+          .field('t_time')
+          .from('tbl_register','r')
+          // .join(DB.builder().select().from('tbl_tweet'),'t','t.t_userid = r.id')
+          .where('t.t_userid = r.id')
+          .toParam()
+
+
+      DB.executeQuery(query, (error, followername) => {
+        if (error) {
+          next(error);
+          return;
+          }
+});
+});
 module.exports = router;
