@@ -1,6 +1,7 @@
 extends ./layouts/main.pug
-//- include ./header.pug
+
 block content
+
 
   .navbar-collapse.collapse.navbar-default
     ul.nav.navbar-nav.navbar-left
@@ -47,11 +48,7 @@ block content
             button.btn.btn-default(type='button', data-dismiss='modal') Close
 
 
-    .form-group
-      a#btnprofile(href='/profile')
-        span.fa.fa-user.fa-3x
-        br
-        br
+
 
   .col-md-3
     each name in follow
@@ -66,5 +63,25 @@ block content
         form(method='post', action='/unfollow')
           input(type='hidden', name='myunfollow', value = name.id)
           button(type='submit').fa.fa-times.fa-2x
+
+  div.align-center
+    form#profile(action='/profile' method='POST')
+      div(align='center')
+        each r in res
+          div(align='center')
+            h1 Update Your Profile
+            div#divregistername
+              label Name
+              input(type="text", name="fullname" id="fullname" value=r.fullname)
+            div
+              label Email-Id
+              input(type="email", name="emailid" id="emailid" value=r.emailid)
+            div#divregisterpassword
+              label Password
+              input(type="text", name="password" id="password" value=r.password)
+            div
+              input.button(type="submit", name="Submit")
+
+
 
 

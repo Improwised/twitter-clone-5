@@ -1,0 +1,11 @@
+extends ./layouts/main.pug
+
+block content
+  div.align-center
+   form(action='/photo', enctype='multipart/form-data', method='post')
+    p
+      | Please specify a file, or a set of files:
+      br
+      input(type='file', name='datafile', size='40')
+    div
+      input(type='submit', value='Send')
