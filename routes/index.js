@@ -154,6 +154,7 @@ router.get('/profile', (req, res, next) => {
           .field('fullname')
           .field('t_tweetText')
           .field('t_time')
+          .field('image')
           .from('tbl_register', 'r')
           .join(DB.builder().select().from('tbl_tweet'), 't', 't.t_userid = r.id')
           .where('emailid = ?', req.session.emailid)
@@ -163,7 +164,8 @@ router.get('/profile', (req, res, next) => {
         next(error);
         return;
       }
-      res.render('profile', { res: results.rows });
+      console.log(results.rows[0]);
+      res.render('profile', { res: results.rows});
     });
   } else {
     res.render('login');

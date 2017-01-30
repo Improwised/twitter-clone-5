@@ -139,7 +139,7 @@ COPY tbl_register (id, fullname, emailid, password, image) FROM stdin;
 -- Name: tbl_register_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Vivek
 --
 
-SELECT pg_catalog.setval('tbl_register_id_seq', 34, true);
+SELECT pg_catalog.setval('tbl_register_id_seq', 35, true);
 
 
 --
@@ -154,7 +154,7 @@ COPY tbl_tweet (t_id, "t_tweetText", "t_likeCount", t_time, t_userid) FROM stdin
 -- Name: tbl_tweet_t_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Vivek
 --
 
-SELECT pg_catalog.setval('tbl_tweet_t_id_seq', 29, true);
+SELECT pg_catalog.setval('tbl_tweet_t_id_seq', 30, true);
 
 
 --

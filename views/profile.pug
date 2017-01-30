@@ -54,12 +54,13 @@ block content
 
 
   .col-md-3
-    .well
-      .form-group
-        img(src='', alt='Smiley face', height='200', width='200')
+      .well
+        each r in res
+          .form-group
+            img.thumbnail(src='./images/profile/'+ r.image,width ="200px" height="200px")
 
-      a#btnprofileedit(href='/updateprofile')
-        span(align='center').fa.fa-pencil-square.fa-3x
+          a#btnprofileedit(href='/updateprofile')
+            span(align='center').fa.fa-pencil-square.fa-3x
 
 
 
