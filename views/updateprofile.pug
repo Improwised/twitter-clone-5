@@ -1,0 +1,36 @@
+extends ./layouts/main.pug
+
+block content
+
+  div.align-center
+    form#profile(action='/updateprofile' method='POST', enctype='multipart/form-data')
+      div(align='center')
+        each r in res
+          div(align='center')
+            h1 Update Your Profile
+            div#divregistername
+              label Name
+              input(type="text", name="fullname" id="fullname" value=r.fullname)
+            div
+              label Email-Id
+              input(type="email", name="emailid" id="emailid" value=r.emailid)
+            div#divregisterpassword
+              label Password
+              input(type="text", name="password" id="password" value=r.password)
+            div
+              img.thumbnail(src='./images/profile/'+ r.image,width ="200px" height="200px")
+
+              form(method='post', enctype='multipart/form-data', action='/profilepictureupload')
+                input(type='file', name='file' ,style = "margin : -5px 0px 10px 0px ;color : #00aced;" ,required )
+            div
+              input.button(type="submit", name="Submit")
+
+          div.align-center
+            div(align='center')
+
+
+  script.
+    $(body).css("background-color","#cceeff");
+
+
+
