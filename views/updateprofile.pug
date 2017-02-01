@@ -2,7 +2,6 @@ extends ./layouts/main.pug
 
 block content
 
-
   .navbar-collapse.collapse.navbar-default
     ul.nav.navbar-nav.navbar-left
       li#nav-home
@@ -52,49 +51,31 @@ block content
         span.fa.fa-user.fa-2x
 
   .container
-    .col-md-3
-      h3 My Profile
-      each r in username1
-        .well
-          .form-group
-            img.img-circle(src='./images/profile/'+ r.image,width ="150px" height="150px")
-            br
-            a#btnprofileedit(href='/updateprofile')
-              span(align='center').fa.fa-pencil-square.fa-2x
-            h3= r.fullname
-    .col-md-6
-      h3 My Tweets
-      each book in res
-        .well
-          p
-            h3= book.fullname
-            br
-            br
-            span= book.t_tweetText
-            br
-            br
 
-            span= book.t_time
+    .row
+      form(action='/updateprofile' method='POST', enctype='multipart/form-data')
+        .form-group
+          each r in res
+            h1(align='center') Update Your Profile
             br
-            br
-            a(href='#')#like.span.fa.fa-heart.fa-1x
-            |  &nbsp;
-            span= book.t_likeCountx
+            .col-md-3
+              div(align='center')
+              img.img-circle(src='./images/profile/'+ r.image,width ="200px" height="200px")
+              br
+              form(method='post', enctype='multipart/form-data', action='/profilepictureupload')
+                br
+                input.form-control(type='file', name='file' ,style = "margin : -5px 0px 10px 0px ;color : #00aced;" ,required )
 
-    .col-md-3
-      h3 My Followers
-      each name in follow
-        .well
-          .form-group(align='center')
-            h4= name.fullname
-            form(method='post', action='/unfollow')
-              br
-              img.img-circle(src='./images/profile/'+ name.image,width ="100px" height="100px")
-              br
-              input(type='hidden', name='myfollow', value = name.f_followerid)
-              br
-              button.unfollowbtn.btn.btn-primary(type='submit') Unfollow
-              br
+            .col-md-9
+              label Name
+              input.form-control(type="text", name="fullname" id="fullname" value=r.fullname)
 
+              label Email-Id
+              input.form-control(type="email", name="emailid" id="emailid" value=r.emailid)
+
+              label Password
+              input.form-control(type="text", name="password" id="password" value=r.password)
+
+              input.form-control.button.btn-info(type="submit", name="Submit")
 
 

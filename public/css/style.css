@@ -13,10 +13,6 @@
 .btn{
   color: white;
   float: left;
-  margin: 10px;
-  margin-top:-5px;
-
-
 }
 .btn#tweetbtn{
   float:right;
@@ -175,14 +171,16 @@ ul.twPc-Arrange {
     transition: color 0.15s ease-in-out 0s;
 }
 a:hover#like {
-  color: #ff0000;
-
+  text-decoration: none;
+  color:#ff0000;
 }
 a:visited{
-  color:#ff0000;
+  text-decoration: none;
+  color: #ff0000;
 }
 a:link{
   /*color: #ff0000;*/
+  text-decoration: none;
 }
 
 .container{
@@ -216,8 +214,9 @@ a:link{
 
 /*css for login and sign up forn */
 
-body {
-  background: #eee !important;
+body,html {
+  background: white !important;
+
 }
 
 .wrapper {
@@ -270,4 +269,12 @@ input[type="email"] {
   margin: 0 auto;
   background-color: #fff;
   border: 1px solid rgba(0,0,0,0.1);
+}
+
+.followbtn{
+  margin-left: 80px;
+}
+.unfollowbtn{
+  margin-left: 70px;
+}
 }

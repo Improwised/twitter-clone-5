@@ -3,7 +3,12 @@ const express = require('express');
 const DB = require('../helpers/db');
 
 const router = express.Router();
+const path = require('path');
 
+var multer  = require('multer')
+
+const upload = multer({ dest: path.resolve(__dirname, '../public/images/profile/') });
+const uploadtweet = multer({ dest: path.resolve(__dirname, '../public/images/tweetimage/') });
 // GET: /
 
 router.get('/', (req, res, next) => {
@@ -18,30 +23,27 @@ router.get('/', (req, res, next) => {
       return;
     }
     res.render('index', {
-       title: `Time from the database is ${results.rows[0].now}`,
+       // title: `Time from the database is ${results.rows[0].now}`,
 
     });
   });
 });
 
-<<<<<<< HEAD
+
 router.get('/register', (req, res, next) => {
   res.render('register');
 });
 
-router.get('/login', (req, res, next) => {
-  res.render('login');
-});
-
-
-
-router.post('/register', (req, res, next) => {
+router.post('/register',upload.single('file'), (req, res, next) => {
+  const filename = req.file.filename;
+  const session = req.session;
   const query = DB.builder()
     .insert()
     .into('tbl_register')
     .set('fullname', req.body.fullname)
     .set('emailid', req.body.emailid)
     .set('password', req.body.password)
+    .set('image', filename)
     .toParam();
   DB.executeQuery(query, (error) => {
     if (error) {
@@ -50,6 +52,10 @@ router.post('/register', (req, res, next) => {
     }
     res.redirect('/login');
   });
+});
+
+router.get('/login', (req, res, next) => {
+  res.render('login');
 });
 
 router.post('/login', (req, res, next) => {
@@ -69,11 +75,9 @@ router.post('/login', (req, res, next) => {
     if (results.rowCount) {
       session.emailid = fetchemailid;
       session.userid = results.rows[0].id;
-      // console.log(req.session);
-      // console.log("Data matched");
       res.redirect('header');
     } else {
-      // console.log("Data not matched");
+
       res.render('login');
     }
   });
@@ -83,7 +87,6 @@ router.post('/login', (req, res, next) => {
 
 
 router.get('/logout', (req, res, next) => {
-  console.log("----->>>>", req.session);
   req.session.destroy(function(err) {
       if(err) {
         console.log(err);
@@ -101,35 +104,138 @@ router.get('/index', (req, res, next) => {
 
 router.get('/header', (req, res, next) => {
   let query
+  const session = req.session;
   if(req.session.emailid) {
-
   query = DB.builder()
+    .select()
+    .field('fullname')
+    .field('t_tweetText')
+    .field('image')
+    .field('t.*')
+    .from('tbl_register','r')
+    .join('tbl_tweet','t','t.t_userid = r.id')
+    .where(DB.builder().expr()
+      .or('t.t_userid IN ?', DB.builder()
+        .select()
+        .field('f_followerid')
+        .from('tbl_follower')
+        .where('f_userid = ?', req.session.userid)
+      )
+      .or('t.t_userid= ?', req.session.userid)
+    )
+    .order('t_time', false);
+    console.log(query.toString());
+    DB.executeQuery(query.toParam(), (error, tweets) => {
+      if (error) {
+        next(error);
+        return;
+      }
+
+      query = DB.builder()
+          .select()
+          .from('tbl_register')
+          .where('id != ?',session.userid)
+          .where('id NOT IN ?',
+          DB.builder()
+             .select()
+             .field('f_followerid')
+             .from('tbl_follower')
+             .where('f_userid = ?',session.userid))
+             .toParam();
+       // console.log("--->/////", query);
+
+      DB.executeQuery(query, (error, follow) => {
+              if (error) {
+                next(error);
+                return;
+              }
+
+
+      query = DB.builder()
+          .select()
+          .from('tbl_register','r')
+          .field('fullname')
+          .field('image')
+          .where('id = ?',req.session.userid)
+          .toParam();
+        console.log(query);
+
+        DB.executeQuery(query, (error, username) => {
+          if (error) {
+            next(error);
+            return;
+          }
+        res.render('header', {
+          tweets : tweets.rows,
+          follow : follow.rows,
+          username : username.rows,
+        });
+      });
+   });
+});
+}else  {
+    res.render('login');
+  }
+});
+
+router.post('/header', uploadtweet.single('file'), function (req, res, next) {
+  console.log("--->>>>>");
+  let filename = '';
+
+  if (req.file) {
+   filename = req.file.filename;
+  } else {
+   filename = '';
+  }
+  const query = DB.builder()
+        .insert()
+        .into('tbl_tweet')
+        .set('t_tweetText', req.body.comment)
+        .set('t_likeCount', '0')
+        .set('t_time', 'now()')
+        .set('t_image',filename)
+        .set('t_userid', req.session.userid)
+        .toParam();
+  DB.executeQuery(query, (error) => {
+    if (error) {
+      next(error);
+      return;
+    }
+    res.redirect('/header');
+  });
+});
+
+router.get('/profile', (req, res, next) => {
+  let query
+  const session = req.session
+  if (req.session.emailid) {
+    query = DB.builder()
         .select()
           .field('fullname')
           .field('t_tweetText')
           .field('t_time')
+          .from('tbl_register', 'r')
+          .join(DB.builder().select().from('tbl_tweet'), 't', 't.t_userid = r.id')
+          .where('emailid = ?', req.session.emailid)
+          .toParam();
+    DB.executeQuery(query, (error, results) => {
+      if (error) {
+        next(error);
+        return;
+      }
 
+      query = DB.builder()
+          .select()
+          .field('fullname')
+          .field('f_followerid')
+          .field('f_id')
+          .field('image')
           .from('tbl_register','r')
-          .join(DB.builder().select().from('tbl_tweet'),'t','t.t_userid = r.id')
+          .join(DB.builder().select().from('tbl_follower'), 'f', 'r.id = f.f_followerid')
+          .where('r.id != ?',session.userid)
+          .toParam();
 
-          .toParam()
-
-
-      DB.executeQuery(query, (error, tweets) => {
-        if (error) {
-          next(error);
-          return;
-          }
-
-
-  query = DB.builder()
-      .select()
-      .from('tbl_register','r')
-      .field('fullname')
-      .field('id')
-      .where('id != ?',req.session.userid)
-      .toParam();
-    console.log(query);
+      console.log(query);
 
       DB.executeQuery(query, (error, follow) => {
         if (error) {
@@ -138,60 +244,58 @@ router.get('/header', (req, res, next) => {
 
         }
 
-  query = DB.builder()
-      .select()
-      .from('tbl_register','r')
-      .field('fullname')
-      .where('id = ?',req.session.userid)
-      .toParam();
-    console.log(query);
+        query = DB.builder()
+          .select()
+          .from('tbl_register','r')
+          .field('fullname')
+          .field('image')
+          .where('id = ?',req.session.userid)
+          .toParam();
+        console.log(query);
 
-      DB.executeQuery(query, (error, username) => {
-        if (error) {
-          next(error);
-          return;
-        }
 
-       // console.log(results.rows);
-      res.render('header',{
-        tweets : tweets.rows,
-        follow : follow.rows,
-        username : username.rows,
+        DB.executeQuery(query, (error, username) => {
+          if (error) {
+            next(error);
+            return;
+          }
+
+        query = DB.builder()
+          .select()
+          .from('tbl_register','r')
+          .field('fullname')
+          .field('image')
+          .where('id = ?',req.session.userid)
+          .toParam();
+        console.log(query);
+
+        DB.executeQuery(query, (error, username1) => {
+          if (error) {
+            next(error);
+            return;
+          }
+
+          console.log("=====>",results.rows);
+      res.render('profile', {
+       res: results.rows,
+       follow: follow.rows,
+       username : username.rows,
+       username1 : username1.rows,
       });
     });
   });
-  });
- } else  {
-
+});
+});
+} else {
     res.render('login');
   }
 });
 
 
-router.get('/profile', (req, res, next) => {
-  query = DB.builder()
-      .select()
-      .from('tbl_register','r')
-      .field('fullname')
-      .field('id')
-      .where('id != ?',req.session.userid)
-      .toParam();
-    console.log(query);
-
-      DB.executeQuery(query, (error, follow) => {
-        if (error) {
-          next(error);
-          return;
-      }
-
-  res.render('profile',{
-    follow : follow.rows,
-  });
-});
-});
 
 
-router.post('/header', (req, res, next) => {
+
+router.post('/profile', (req, res) => {
   const query = DB.builder()
     .insert()
       .into('tbl_tweet')
@@ -205,51 +309,9 @@ router.post('/header', (req, res, next) => {
       next(error);
       return;
     }
-    res.redirect('/header');
+    res.redirect('/profile');
   });
 });
-
-router.get('/homepage', (req, res) => {
-  res.render('homepage');
-});
-
-router.get('/profile', (req, res, next) => {
-  const session = req.session;
-  const query = DB.builder()
-    .select()
-    .field('fullname')
-    .field('emailid')
-    .field('password')
-    .from('tbl_register')
-    .where('emailid = ?', session.emailid)
-    .toParam();
-  return DB.executeQuery(query, (error, results) => {
-    if (error) {
-      next(error);
-      return;
-    }
-    res.render('profile', { res: results.rows });
-  });
-});
-
-router.post('/profile', (req, res) => {
-  const session = req.session;
-  const query = DB.builder()
-    .update()
-      .table('tbl_register')
-      .set('fullname', req.body.fullname)
-      .set('emailid', req.body.emailid)
-      .set('password', req.body.password)
-      .where('emailid = ?', session.emailid)
-      .toParam();
-  DB.executeQuery(query, (error, next) => {
-    if (error) {
-      next(error);
-    }
-  });
-  res.redirect('/header');
-});
-
 
 router.post('/follow', (req, res, next) => {
 
@@ -274,13 +336,13 @@ router.post('/follow', (req, res, next) => {
 });
 
 router.post('/unfollow', (req, res, next) => {
-  console.log("jksbdkjdbsbd");
+
   const session = req.session;
 
     const query = DB.builder()
         .delete()
         .from('tbl_follower')
-        .where('f_followerid=?',req.body.myunfollow)
+        .where('f_followerid=?',req.body.myfollow)
         .toParam();
 
   DB.executeQuery(query, (error, results) => {
@@ -288,8 +350,8 @@ router.post('/unfollow', (req, res, next) => {
       next(error);
       return;
     }
-        // console.log(results.rows);
-    res.redirect('/header');
+
+    res.redirect('/profile');
    });
 
 });
@@ -302,10 +364,8 @@ router.get('/followername', (req, res, next) => {
           .field('t_tweetText')
           .field('t_time')
           .from('tbl_register','r')
-          // .join(DB.builder().select().from('tbl_tweet'),'t','t.t_userid = r.id')
           .where('t.t_userid = r.id')
           .toParam()
-
 
       DB.executeQuery(query, (error, followername) => {
         if (error) {
@@ -314,5 +374,51 @@ router.get('/followername', (req, res, next) => {
           }
 });
 });
+
+router.get('/updateprofile', (req, res) => {
+  const session = req.session;
+  if(req.session.emailid) {
+  const query = DB.builder()
+    .select()
+    .field('fullname')
+    .field('emailid')
+    .field('password')
+    .field('image')
+    .from('tbl_register')
+    .where('emailid = ?', session.emailid)
+    .toParam();
+  return DB.executeQuery(query, (error, results) => {
+    if (error) {
+      next(error);
+      return;
+    }
+    res.render('updateprofile', { res: results.rows });
+  });
+  } else {
+    res.render('login');
+  }
+});
+
+
+router.post('/updateprofile', upload.single('file'), function (req, res, next) {
+  const session = req.session;
+  const filename = req.file.filename;
+  const query = DB.builder()
+    .update()
+      .table('tbl_register')
+      .set('fullname', req.body.fullname)
+      .set('emailid', req.body.emailid)
+      .set('password', req.body.password)
+      .set('image', filename)
+      .where('emailid = ?', session.emailid)
+      .toParam();
+  DB.executeQuery(query, (error, next) => {
+    if (error) {
+      next(error);
+    }
+  });
+  res.redirect('profile');
+});
+
 
 module.exports = router;
