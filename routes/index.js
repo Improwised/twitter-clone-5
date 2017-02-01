@@ -1,12 +1,8 @@
 const express = require('express');
-
 const DB = require('../helpers/db');
-
 const router = express.Router();
 const path = require('path');
-
-var multer  = require('multer')
-
+const multer = require('multer');
 const upload = multer({ dest: path.resolve(__dirname, '../public/images/profile/') });
 
 // GET: /
@@ -36,15 +32,30 @@ router.get('/login', (req, res) => {
 });
 
 router.post('/register', upload.single('file'), function (req, res, next) {
-  const filename = req.file.filename;
-  const session = req.session;
+
+  const fullname = req.body.fullname;
+  const emailid = req.body.emailid;
+  const password = req.body.password;
+
+  req.checkBody('fullname', 'Username is required').notEmpty();
+  req.checkBody('emailid', 'Email is required').notEmpty();
+  req.checkBody('emailid', 'Email is not valid').isEmail();
+  req.checkBody('password', 'Password is required').notEmpty();
+
+  const errors = req.validationErrors();
+  let photo = ''; /*= req.file.filename;*/
+  if (req.file) {
+    photo = req.file.filename;
+  } else {
+    photo = 'twitter.jpg';
+  }
   const query = DB.builder()
     .insert()
     .into('tbl_register')
     .set('fullname', req.body.fullname)
     .set('emailid', req.body.emailid)
     .set('password', req.body.password)
-    .set('image', filename)
+    .set('image', photo)
     .toParam();
   DB.executeQuery(query, (error) => {
     if (error) {
@@ -57,12 +68,17 @@ router.post('/register', upload.single('file'), function (req, res, next) {
 
 router.post('/login', (req, res, next) => {
   const session = req.session;
-  const fetchemailid = req.body.emailid;
-  const fetchpassword = req.body.password;
+  const emailid = req.body.emailid;
+  const password = req.body.password;
+
+  req.checkBody('emailid', 'Email is required').notEmpty();
+  req.checkBody('emailid', 'Email is not valid').isEmail();
+  req.checkBody('password', 'Password is required').notEmpty();
+
   const query = DB.builder()
     .select()
     .from('tbl_register')
-    .where('emailid = ? AND password = ?', fetchemailid, fetchpassword)
+    .where('emailid = ? AND password = ?', emailid, password)
     .toParam();
   return DB.executeQuery(query, (error, results) => {
     if (error) {
@@ -70,7 +86,7 @@ router.post('/login', (req, res, next) => {
       return;
     }
     if (results.rowCount) {
-      session.emailid = fetchemailid;
+      session.emailid = emailid;
       session.userid = results.rows[0].id;
       // console.log(req.session);
       // console.log("Data matched");
@@ -111,7 +127,6 @@ router.get('/header', (req, res, next) => {
           .field('t_time')
           .from('tbl_register', 'r')
           .join(DB.builder().select().from('tbl_tweet'), 't', 't.t_userid = r.id')
-          //.where('emailid = ?', req.session.emailid)
           .toParam();
     DB.executeQuery(query, (error, results) => {
       if (error) {
@@ -164,8 +179,7 @@ router.get('/profile', (req, res, next) => {
         next(error);
         return;
       }
-      console.log(results.rows[0]);
-      res.render('profile', { res: results.rows});
+      res.render('profile', { res: results.rows });
     });
   } else {
     res.render('login');
@@ -181,7 +195,7 @@ router.post('/profile', (req, res) => {
       .set('t_time', 'now()')
       .set('t_userid', req.session.userid)
       .toParam();
-  DB.executeQuery(query, (error) => {
+  DB.executeQuery(query, (error, next) => {
     if (error) {
       next(error);
       return;
@@ -194,14 +208,14 @@ router.get('/updateprofile', (req, res) => {
   const session = req.session;
   const query = DB.builder()
     .select()
-    .field('fullname')
-    .field('emailid')
-    .field('password')
-    .field('image')
-    .from('tbl_register')
-    .where('emailid = ?', session.emailid)
-    .toParam();
-  return DB.executeQuery(query, (error, results) => {
+      .field('fullname')
+      .field('emailid')
+      .field('password')
+      .field('image')
+      .from('tbl_register')
+      .where('emailid = ?', session.emailid)
+      .toParam();
+  return DB.executeQuery(query, (error, results, next) => {
     if (error) {
       next(error);
       return;
@@ -210,16 +224,21 @@ router.get('/updateprofile', (req, res) => {
   });
 });
 
-router.post('/updateprofile', upload.single('file'), function (req, res, next) {
+router.post('/updateprofile', upload.single('file'), function (req, res) {
   const session = req.session;
-  const filename = req.file.filename;
+  let photo = ''; /*= req.file.filename;*/
+  if (req.file) {
+    photo = req.file.filename;
+  } else {
+    photo = 'twitter.jpg';
+  }
   const query = DB.builder()
     .update()
       .table('tbl_register')
       .set('fullname', req.body.fullname)
       .set('emailid', req.body.emailid)
       .set('password', req.body.password)
-      .set('image', filename)
+      .set('image', photo)
       .where('emailid = ?', session.emailid)
       .toParam();
   DB.executeQuery(query, (error, next) => {
@@ -229,6 +248,5 @@ router.post('/updateprofile', upload.single('file'), function (req, res, next) {
   });
   res.redirect('updateprofile');
 });
-
 
 module.exports = router;

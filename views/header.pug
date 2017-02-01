@@ -22,6 +22,10 @@ block content
 
           span.nav-icon-text Messages
 
+      li#nav-meassage
+         button(type='button', onclick="notifyMe()") notify
+
+
     .form-group
       a#btnsignout(href='/logout')
         span.fa.fa-sign-out.fa-3x
@@ -41,7 +45,7 @@ block content
             form(id='tweet', method='post', action='/header')
               .form-group
                 label(for='comment') Whats Happening???
-                textarea#comment.form-control(rows='5',name='comment')
+                textarea#comment.form-control(rows='5',name='comment', maxlength="140")
                 a(href='/header')
                   button.btn.btn-primary(type='submit') Tweet
 
@@ -70,5 +74,40 @@ block content
             a(href='#')#like.span.fa.fa-heart.fa-1x
             |  &nbsp;
             span= book.t_likeCount
+
+    script.
+      function notifyMe() {
+        // Let's check if the browser supports notifications
+        if (!("Notification" in window)) {
+          alert("This browser does not support desktop notification");
+        }
+
+        // Let's check whether notification permissions have already been granted
+        else if (Notification.permission === "granted") {
+          // If it's okay let's create a notification
+          var notification = new Notification("Hi there!");
+        }
+
+        // Otherwise, we need to ask the user for permission
+        else if (Notification.permission !== 'denied') {
+          Notification.requestPermission(function (permission) {
+            // If the user accepts, let's create a notification
+            if (permission === "granted") {
+              var notification = new Notification("Hi there!");
+            }
+          });
+        }
+
+        // At last, if the user has denied notifications, and you
+        // want to be respectful there is no need to bother them any more.
+      }Notification.requestPermission().then(function(result) {
+        console.log(result);
+      });function spawnNotification(theBody,theIcon,theTitle) {
+        var options = {
+            body: theBody,
+            icon: theIcon
+        }
+        var n = new Notification(theTitle,options);
+      }
 
 

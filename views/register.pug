@@ -8,13 +8,13 @@ block content
         div(align='center')
           h1 Join Today
           div#divregistername
-            input(type="text", name="fullname" id="fullname" placeholder="Full name")
+            input(type="text", name="fullname" id="fullname" placeholder="Full name", required)
           div
-            input(type="email", name="emailid" id="emailid" placeholder="Email-Id")
+            input(type="email", name="emailid" id="emailid" placeholder="Email-Id", required)
           div#divregisterpassword
-            input(type="password", name="password" id="password" placeholder="Password")
+            input(type="password", name="password" id="password" placeholder="Password", required)
           div
-            input(type='file', name='file' ,style = "margin : -5px 0px 10px 0px ;color : #00aced;")
+            input(type='file', name='file' ,style = "margin : -5px 0px 10px 0px ;color : #00aced;", required)
           div
             input.button(type="submit", name="Submit")
 
