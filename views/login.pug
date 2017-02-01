@@ -1,19 +1,16 @@
 extends ./layouts/main.pug
 
 block content
-  h1= Login
 
-  div.align-center
-    form#login(action='/login' method='POST')
-      div(align='center')
-        div(align='center')
-          h1 Login
-          div#divlogin
-            input(type = "text", name = "emailid" id = "emailid" placeholder="Email-Id", required)
-          div
-            input(type = "password", name = "password" id = "password" placeholder="Password", required)
-          div
-            input.button(type="submit", name="Submit")
+  .container
+    .wrapper
+      form.form-login(action='/login' method='POST')
+        h2.form-signin-heading Please Login
+        br
+        br
+        input.form-control(type='text', name='emailid', placeholder='Email Address', required='', autofocus='',id = "emailid")
+        input.form-control(type='password', name='password', placeholder='Password', required='', id= 'password')
 
-  script.
-    $(body).css("background-color","#66ccff");
+        button.btn.btn-lg.btn-info.btn-block(type='submit', name='submit') Login
+        br
+        br

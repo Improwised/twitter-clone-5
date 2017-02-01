@@ -15,14 +15,14 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner:
 --
 
 CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner:
 --
 
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
@@ -41,7 +41,7 @@ SET default_with_oids = false;
 CREATE TABLE tbl_follower (
     f_id integer NOT NULL,
     f_userid integer,
-    "f_followCount" integer
+    f_followerid integer
 );
 
 
@@ -80,7 +80,17 @@ ALTER TABLE tbl_register_id_seq OWNER TO "Vivek";
 -- Name: tbl_register_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Vivek
 --
 
+
 ALTER SEQUENCE tbl_register_id_seq OWNED BY tbl_register.id;
+
+CREATE TABLE tbl_register (
+    id integer DEFAULT nextval('tbl_register_id_seq'::regclass) NOT NULL,
+    fullname text,
+    emailid text,
+    password text,
+    image text
+);
+
 
 
 --
@@ -106,7 +116,8 @@ CREATE TABLE tbl_tweet (
     "t_tweetText" text,
     "t_likeCount" integer,
     t_time timestamp without time zone DEFAULT '2017-01-19 13:01:27.066544'::timestamp without time zone,
-    t_userid integer
+    t_userid integer,
+    t_image text
 );
 
 
@@ -123,12 +134,19 @@ ALTER TABLE ONLY tbl_register ALTER COLUMN id SET DEFAULT nextval('tbl_register_
 -- Data for Name: tbl_follower; Type: TABLE DATA; Schema: public; Owner: Vivek
 --
 
-COPY tbl_follower (f_id, f_userid, "f_followCount") FROM stdin;
+COPY tbl_follower (f_id, f_userid, f_followerid) FROM stdin;
 \.
 
 
 --
 -- Data for Name: tbl_register; Type: TABLE DATA; Schema: public; Owner: Vivek
+--
+
+SELECT pg_catalog.setval('tbl_follower_f_id_seq', 69, true);
+
+
+--
+-- Data for Name: tbl_register; Type: TABLE DATA; Schema: public; Owner: riddhi
 --
 
 COPY tbl_register (id, fullname, emailid, password, image) FROM stdin;
@@ -139,14 +157,16 @@ COPY tbl_register (id, fullname, emailid, password, image) FROM stdin;
 -- Name: tbl_register_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Vivek
 --
 
-SELECT pg_catalog.setval('tbl_register_id_seq', 35, true);
+
+SELECT pg_catalog.setval('tbl_register_id_seq', 25, true);
+
 
 
 --
 -- Data for Name: tbl_tweet; Type: TABLE DATA; Schema: public; Owner: Vivek
 --
 
-COPY tbl_tweet (t_id, "t_tweetText", "t_likeCount", t_time, t_userid) FROM stdin;
+COPY tbl_tweet (t_id, "t_tweetText", "t_likeCount", t_time, t_userid, t_image) FROM stdin;
 \.
 
 
@@ -154,7 +174,8 @@ COPY tbl_tweet (t_id, "t_tweetText", "t_likeCount", t_time, t_userid) FROM stdin
 -- Name: tbl_tweet_t_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Vivek
 --
 
-SELECT pg_catalog.setval('tbl_tweet_t_id_seq', 30, true);
+
+SELECT pg_catalog.setval('tbl_tweet_t_id_seq', 42, true);
 
 
 --
@@ -166,6 +187,24 @@ ALTER TABLE ONLY tbl_register
 
 
 --
+
+-- Name: tbl_tweet tbl_tweet_pkey; Type: CONSTRAINT; Schema: public; Owner: riddhi
+--
+
+ALTER TABLE ONLY tbl_tweet
+    ADD CONSTRAINT tbl_tweet_pkey PRIMARY KEY (t_id);
+
+
+--
+-- Name: tbl_tweet tbl_tweet_t_userid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: riddhi
+--
+
+ALTER TABLE ONLY tbl_tweet
+    ADD CONSTRAINT tbl_tweet_t_userid_fkey FOREIGN KEY (t_userid) REFERENCES tbl_register(id);
+
+
+--
+
 -- PostgreSQL database dump complete
 --
 

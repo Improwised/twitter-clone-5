@@ -2,35 +2,80 @@ extends ./layouts/main.pug
 
 block content
 
-  div.align-center
-    form#profile(action='/updateprofile' method='POST', enctype='multipart/form-data')
-      div(align='center')
-        each r in res
-          div(align='center')
-            h1 Update Your Profile
-            div#divregistername
-              label Name
-              input(type="text", name="fullname" id="fullname" value=r.fullname)
-            div
-              label Email-Id
-              input(type="email", name="emailid" id="emailid" value=r.emailid)
-            div#divregisterpassword
-              label Password
-              input(type="text", name="password" id="password" value=r.password)
-            div
-              img.thumbnail(src='./images/profile/'+ r.image,width ="200px" height="200px")
+  .navbar-collapse.collapse.navbar-default
+    ul.nav.navbar-nav.navbar-left
+      li#nav-home
+        a(href='/header')
+          i.fa.fa-home.fa-2x
 
+          span.nav-icon-text Home
+      li#nav-notification
+        a(href='#')
+          i.fa.fa-bell.fa-2x
+
+          span.nav-icon-text Notification
+      li#nav-meassage
+        a(href='#')
+          i.fa.fa-comment.fa-2x
+
+          span.nav-icon-text Messages
+
+    .form-group
+      a#btnsignout(href='/logout')
+        span.fa.fa-sign-out.fa-2x
+
+
+    //tweet button with popup window
+    button#myBtn.btn.btn-info(type='button', data-toggle='modal', data-target='#exampleModal') Tweet
+
+    #exampleModal.modal.fade(role='dialog', tabindex="-1",aria-labelledby="exampleModalLabel" aria-hidden="true")
+      .modal-dialog
+        // Modal content
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal') ×
+            h4.modal-title Compose New Tweet
+          .modal-body
+            form(id='tweet', method='post', action='/header')
+              .form-group
+                label(for='comment') Whats Happening???
+                textarea#comment.form-control(rows='5',name='comment')
+                a(href='/header')
+                button.btn.btn-info(type='submit') Tweet
+
+          .modal-footer
+            button.btn.btn-default(type='button', data-dismiss='modal') Close
+
+    .form-group
+      a#btnprofile(href='/profile')
+        span.fa.fa-user.fa-2x
+
+  .container
+
+    .row
+      form(action='/updateprofile' method='POST', enctype='multipart/form-data')
+        .form-group
+          each r in res
+            h1(align='center') Update Your Profile
+            br
+            .col-md-3
+              div(align='center')
+              img.img-thumbnail(src='./images/profile/'+ r.image,width ="200px" height="200px")
+              br
               form(method='post', enctype='multipart/form-data', action='/profilepictureupload')
-                input(type='file', name='file' ,style = "margin : -5px 0px 10px 0px ;color : #00aced;" ,required )
-            div
-              input.button(type="submit", name="Submit")
+                br
+                input.form-control(type='file', name='file' ,style = "margin : -5px 0px 10px 0px ;color : #00aced;" ,required )
 
-          div.align-center
-            div(align='center')
+            .col-md-9
+              label Name
+              input.form-control(type="text", name="fullname" id="fullname" value=r.fullname)
 
+              label Email-Id
+              input.form-control(type="email", name="emailid" id="emailid" value=r.emailid)
 
-  script.
-    $(body).css("background-color","#cceeff");
+              label Password
+              input.form-control(type="text", name="password" id="password" value=r.password)
 
+              input.form-control.button.btn-info(type="submit", name="Submit")
 
 

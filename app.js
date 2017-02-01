@@ -3,6 +3,7 @@ const path = require('path');
 
 const express = require('express');
 const bodyParser = require('body-parser');
+var expressValidator = require('express-validator');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const session = require('express-session');
@@ -30,6 +31,7 @@ app.set('view engine', 'pug');
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
+app.use(expressValidator());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -42,6 +44,8 @@ app.use(session({
 
 app.use('/', routes);
 app.use('/header', routes);
+app.use('/follow', routes);
+app.use('/unfollow', routes);
 // Catch 404 errors
 // Forwarded to the error handlers
 app.use((req, res, next) => {

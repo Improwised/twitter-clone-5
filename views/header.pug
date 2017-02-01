@@ -1,38 +1,32 @@
 extends ./layouts/main.pug
 
 block content
-  //- p
-  //-   each book in tbl_tweet
-  //-     span= book.t_id
   .navbar-collapse.collapse.navbar-default
     ul.nav.navbar-nav.navbar-left
       li#nav-home
         a(href='/header')
-          i.fa.fa-home.fa-3x
+          i.fa.fa-home.fa-2x
 
           span.nav-icon-text Home
       li#nav-notification
         a(href='#')
-          i.fa.fa-bell.fa-3x
+          i.fa.fa-bell.fa-2x
 
           span.nav-icon-text Notification
       li#nav-meassage
         a(href='#')
-          i.fa.fa-comment.fa-3x
+          i.fa.fa-comment.fa-2x
 
           span.nav-icon-text Messages
-
-      li#nav-meassage
-         button(type='button', onclick="notifyMe()") notify
 
 
     .form-group
       a#btnsignout(href='/logout')
-        span.fa.fa-sign-out.fa-3x
+        span.fa.fa-sign-out.fa-2x
 
 
     //tweet button with popup window
-    button#myBtn.btn.btn-info.btn-lg(type='button', data-toggle='modal', data-target='#exampleModal') Tweet
+    button#myBtn.btn.btn-info(type='button', data-toggle='modal', data-target='#exampleModal') Tweet
 
     #exampleModal.modal.fade(role='dialog', tabindex="-1",aria-labelledby="exampleModalLabel" aria-hidden="true")
       .modal-dialog
@@ -42,12 +36,13 @@ block content
             button.close(type='button', data-dismiss='modal') ×
             h4.modal-title Compose New Tweet
           .modal-body
-            form(id='tweet', method='post', action='/header')
+            form(id='tweet', method='post', action='/header', enctype='multipart/form-data')
               .form-group
                 label(for='comment') Whats Happening???
-                textarea#comment.form-control(rows='5',name='comment', maxlength="140")
+                textarea#comment.form-control(rows='5',name='comment', maxlength = '140')
+                input.form-control(type='file', name='file' ,style = "margin : -5px 0px 10px 0px ;color : #00aced;" )
                 a(href='/header')
-                  button.btn.btn-primary(type='submit') Tweet
+                button.btn.btn-info(type='submit') Tweet
 
           .modal-footer
             button.btn.btn-default(type='button', data-dismiss='modal') Close
@@ -55,59 +50,93 @@ block content
 
     .form-group
       a#btnprofile(href='/profile')
-        span.fa.fa-user.fa-3x
+        span.fa.fa-user.fa-2x
 
   .container
-    each book in res
-      .row
-        .well
-          p
-            span= book.fullname
-            br
-            br
-            span= book.t_tweetText
-            br
-            br
-            span= book.t_time
-            br
-            br
-            a(href='#')#like.span.fa.fa-heart.fa-1x
-            |  &nbsp;
-            span= book.t_likeCount
+    .row
 
-    script.
-      function notifyMe() {
-        // Let's check if the browser supports notifications
-        if (!("Notification" in window)) {
-          alert("This browser does not support desktop notification");
-        }
+      .col-md-3
+        h3(align='center')  Your Profile
+        a(href='/profile')
+          .well
+            p
+              each user in username
+                .form-group(align='center')
+                  img.img-thumbnail(src='./images/profile/'+ user.image,width ="200px" height="200px")
+                h3(align='center')= user.fullname
 
-        // Let's check whether notification permissions have already been granted
-        else if (Notification.permission === "granted") {
-          // If it's okay let's create a notification
-          var notification = new Notification("Hi there!");
-        }
 
-        // Otherwise, we need to ask the user for permission
-        else if (Notification.permission !== 'denied') {
-          Notification.requestPermission(function (permission) {
-            // If the user accepts, let's create a notification
-            if (permission === "granted") {
-              var notification = new Notification("Hi there!");
-            }
-          });
-        }
+        //- expandable list
+        #menu
+        .panel.list-group
+          .form(action='/followername', method='get')
+            a.list-group-item(href='#', data-toggle='collapse', data-target='#sm',   data-parent='#menu')
+              | Followers
+              span.label.label-info 5
 
-        // At last, if the user has denied notifications, and you
-        // want to be respectful there is no need to bother them any more.
-      }Notification.requestPermission().then(function(result) {
-        console.log(result);
-      });function spawnNotification(theBody,theIcon,theTitle) {
-        var options = {
-            body: theBody,
-            icon: theIcon
-        }
-        var n = new Notification(theTitle,options);
-      }
+            #sm.sublinks.collapse
+              a.list-group-item.small
+                span.glyphicon.glyphicon-chevron-right
+                |  inbox
+              a.list-group-item.small
+                span.glyphicon.glyphicon-chevron-right
+                |  sent
+
+          a.list-group-item(href='#', data-toggle='collapse', data-target='#sl', data-parent='#menu')
+            | Following
+            span.glyphicon.glyphicon-tag.pull-right
+          #sl.sublinks.collapse
+            a.list-group-item.small
+              span.glyphicon.glyphicon-chevron-right
+              |  saved tasks
+            a.list-group-item.small
+              span.glyphicon.glyphicon-chevron-right
+              |  add new task
+
+
+
+
+      .col-md-6
+        h3(align='center')   Tweets....
+        each book in tweets
+          - console.log(book);
+          .row
+            .well
+              p
+                h4= book.fullname
+                h4 tweeted
+                br
+                br
+                span= book.t_tweetText
+                br
+                br
+                - if(book.t_image){
+                  div(class='form-group')
+                      img.img-thumbnail(src='./images/tweetimage/'+ book.t_image,width ="200px" height="200px")
+                -}
+
+                span= book.t_time
+                br
+                br
+                a(href='#')#like.span.fa.fa-heart.fa-1x
+                |  &nbsp
+                span= book.t_likeCount
+
+
+
+      .col-md-3
+        h3(align='center') Want to Follow???
+        each name in follow
+          .well
+            .form-group(align='center')
+              h4= name.fullname
+              form(method='post', action='/follow')
+                .form-group
+                  img.img-thumbnail(src='./images/profile/'+ name.image,width ="100px" height="100px")
+                  br
+                  input(type='hidden', name='myfollow', value = name.id)
+                  br
+                  button.followbtn.btn.btn-primary(type='submit') Follow
+                  br
 
 

@@ -2,174 +2,7 @@
 @import url(http://fonts.googleapis.com/css?family=Sniglet|Raleway:900);
 
 
-body, html{
-  height: 100%;
-  padding: 0;
-  margin: 0;
-  font-family: 'Sniglet', cursive;
-}
-
-h1 {
-  font-weight: normal;
-  font-size: 4em;
-  font-family: 'Raleway', sans-serif;
-  margin: 0 auto;
-  margin-top: 30px;
-  width: 500px;
-  color: #F90;
-  text-align: center;
-
-}
-
-header {
-  height: 160px;
-  background: url('http://www.geertjanhendriks.nl/codepen/form/golf.png') repeat-x bottom;
-}
-
-#form {
-  height: 100%;
-  background-color: #98d4f3;
-  overflow: hidden;
-  position: relative;
-}
-
-form{
-  margin: 0 auto;
-  width: 500px;
-  padding-top: 40px;
-  color: black;
-  position: relative;
-
-
-}
-
-label, input, textarea {
-  display: block;
-}
-
-input, textarea {
-  width: 500px;
-  border: none;
-  border-radius: 20px;
-  outline: none;
-  padding: 10px;
-  font-family: 'Sniglet', cursive;
-  font-size: 1em;
-  color: #676767;
-  transition: border 0.5s;
-  -webkit-transition: border 0.5s;
-  -moz-transition: border 0.5s;
-  -o-transition: border 0.5s;
-  border: solid 3px #98d4f3;
-  -webkit-box-sizing:border-box;
-  -moz-box-sizing:border-box;
-  box-sizing:border-box;
-}
-
-input:focus, textarea:focus {
-  border: solid 3px #77bde0;
-}
-
-textarea {
-  height: 100px;
-  resize: none;
-  overflow: auto;
-}
-
-input[type="submit"]{
-  background-color: #F90;
-  color: white;
-  height: 50px;
-  cursor: pointer;
-  margin-top: 30px;
-  font-size: 1.29em;
-  font-family: 'Sniglet', cursive;
-  -webkit-transition: background-color 0.5s;
-  -moz-transition: background-color 0.5s;
-  -o-transition: background-color 0.5s;
-  transition: background-color 0.5s;
-}
-
-input[type="submit"]:hover {
-  background-color: #e58f0e;
-
-}
-
-label {
-  font-size: 1.5em;
-  margin-top: 20px;
-  padding-left: 20px;
-}
-
-#divlogin {
-  margin-top: 30px;
-  margin-bottom: 15px;
-}
-
-#divregistername {
-  margin-top: 30px;
-  margin-bottom: 15px;
-}
-
-#divregisterpassword {
-  margin-top: 15px;
-  margin-bottom: 15px;
-}
-
-/*navbar cs*/
-.navbar {
-  min-height: 80px;
-  border-radius: 0;
-}
-
-.navbar-default {
-  background-color: #98172c;
-  border-color: #98172c;
-}
-
-.fa {
-  color: #8c8c8c;
-}
-
-.mojo-logo {
-  max-height: 60px;
-}
-
-#nav-home, #nav-notification, #nav-message {
-  display: inline;
-}
-
-.navbar-nav > li > a {
-  padding-bottom: 20px;
-}
-
-.nav-icon-text {
-  display: inline;
-  color: #8c8c8c;
-  font-size: 30 px;
-  margin: 0;
-  padding: 0;
-  text-align: center;
-  font-family: Arial;
-}
-
-.navbar-nav > li > a:hover .nav-icon-text {
-  display: inline;
-  color:#00ccff;
-  font-size: 20px;
-}
-
-.nav > li > a {
-  padding: 10px 0px;
-
-}
-
-.nav > li {
-  padding-top: 10px;
-  min-height: 99px;
-  min-width: 95px;
-  text-align: center;
-}
+/*style for searchbar */
 
 .input-group{
   vertical-align: center;
@@ -179,27 +12,27 @@ label {
 /*style for button */
 .btn{
   color: white;
-  float: right;
-  margin: 10px;
-  margin-top:-5px;
-  /*vertical-align: center;*/
-  /*padding: 13px 16px;*/
+  float: left;
+}
+.btn#tweetbtn{
+  float:right;
 
 }
 
-
+/*style for popup*/
  .modal{
-  display: none;
-  position: fixed;
-  z-index: 1;
+ /*   display: block;*/
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
   padding-top: 10px;
   left: 0;
   top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgb(0,0,0);
-  background-color: rgba(0,0,0,0.4);
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
  }
  .modal-dialog {
   top: 20%;
@@ -209,7 +42,7 @@ label {
  .modal-content {
   position: relative;
   background-color: #fefefe;
-  margin: auto;
+  margin: auto; /* 15% from the top and centered */
   padding: 0px;
   border: 1px solid #888;
   width: 80%;
@@ -225,40 +58,17 @@ label {
   font-weight: bold;
 }
 
-.dropdown {
-    position: relative;
-    display: inline-block;
-    float: right;
-    margin-right: 10px;
-}
 
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 180px;
-    margin: 50px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-}
-
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-.desc {
-    padding: 15px;
-    text-align: center;
-}
-
-#btnprofile {
+#btnprofile{
 
   display: block;
   float: right;
   margin-right: 20px;
+
   color: #00a3cc;
 }
 
-#btnsignout {
+#btnsignout{
   margin-left: 20px;
   display: block;
   float: right;
@@ -266,13 +76,15 @@ label {
   color: #00a3cc;
 }
 
+
+/*css for profile page */
 .twPc-div {
   background: #fff none repeat scroll 0 0;
   border: 1px solid #e1e8ed;
   border-radius: 6px;
   height: 200px;
+ /* max-width: 340px;*//* // orginal twitter width: 290px;*/
 }
-
 .twPc-bg {
     background-image: url("https://pbs.twimg.com/profile_banners/50988711/1384539792/600x200");
     background-position: 0 50%;
@@ -282,17 +94,14 @@ label {
     height: 95px;
     width: 100%;
 }
-
 .twPc-block {
     display: block !important;
 }
-
 .twPc-button {
     margin: -35px -10px 0;
     text-align: right;
     width: 100%;
 }
-
 .twPc-avatarLink {
     background-color: #fff;
     border-radius: 6px;
@@ -303,7 +112,6 @@ label {
     padding: 1px;
     vertical-align: bottom;
 }
-
 .twPc-avatarImg {
     border: 2px solid #fff;
     border-radius: 7px;
@@ -312,26 +120,21 @@ label {
     height: 72px;
     width: 72px;
 }
-
 .twPc-divUser {
     margin: 5px 0 0;
 }
-
 .twPc-divName {
     font-size: 18px;
     font-weight: 700;
     line-height: 21px;
 }
-
 .twPc-divName a {
     color: inherit !important;
 }
-
 .twPc-divStats {
     margin-left: 11px;
     padding: 10px 0;
 }
-
 .twPc-Arrange {
     box-sizing: border-box;
     display: table;
@@ -340,7 +143,6 @@ label {
     padding: 0;
     table-layout: auto;
 }
-
 ul.twPc-Arrange {
     list-style: outside none none;
     margin: 0;
@@ -351,18 +153,15 @@ ul.twPc-Arrange {
     padding: 0;
     vertical-align: top;
 }
-
 .twPc-ArrangeSizeFit a:hover {
     text-decoration: none;
 }
-
 .twPc-StatValue {
     display: block;
     font-size: 18px;
     font-weight: 500;
     transition: color 0.15s ease-in-out 0s;
 }
-
 .twPc-StatLabel {
     color: #8899a6;
     font-size: 10px;
@@ -371,7 +170,111 @@ ul.twPc-Arrange {
     text-transform: uppercase;
     transition: color 0.15s ease-in-out 0s;
 }
+a:hover#like {
+  text-decoration: none;
+  color:#ff0000;
+}
+/*a:visited{
+  text-decoration: none;
+  color: #ff0000;
+}
+a:link{
+  /*color: #ff0000;*/
+  /*text-decoration: none;*/
 
-/*#btnprofileedit {
-  align-items: right;
-}*/
+
+.container{
+  margin-top: 30px;
+}
+
+/*cover page*/
+.start-temp{
+  text-align:center;
+  height: 760px;
+  font-size:20px;
+  padding: 40px 50px;
+  background-image: url('images/twitter.jpg');
+}
+.paragraph{
+  text-align: center;
+  margin-top: 170px;
+}
+#title{
+  text-align: center;
+  margin-top: 70px;
+}
+.btn1{
+  vertical-align: center;
+  margin-top: 70px;
+  margin-right:-170px;
+  margin-left: 350px;
+  font-size: 30px;
+}
+
+
+/*css for login and sign up forn */
+
+body,html {
+  background: white !important;
+
+}
+
+.wrapper {
+  margin-top: 80px;
+  margin-bottom: 180px;
+}
+
+.form-login {
+  max-width: 380px;
+  padding: 15px 35px 45px;
+  margin: 0 auto;
+  background-color: #fff;
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+
+.form-control {
+  position: static;
+  font-size: 16px;
+  height: auto;
+  padding: 30px;
+  box-sizing:(border-box);
+
+  &:focus {
+    z-index: 2;
+  }
+}
+
+input[type="text"] {
+  margin-bottom: 20px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+input[type="password"] {
+  margin-bottom: 30px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+input[type="email"] {
+  margin-bottom: 20px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.form-signup {
+  max-width: 380px;
+  padding: 15px 35px 45px;
+  margin: 0 auto;
+  background-color: #fff;
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+.followbtn{
+  margin-left: 80px;
+}
+.unfollowbtn{
+  margin-left: 70px;
+}
+}
