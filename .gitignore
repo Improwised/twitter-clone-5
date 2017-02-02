@@ -39,4 +39,6 @@ nbproject
 .env
 node_modules
 postgres_data
+profile
+tweetimage
 # Generated files

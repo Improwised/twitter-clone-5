@@ -1,87 +1,61 @@
 extends ./layouts/main.pug
 
 block content
+  include navbar.pug
+  .container
+    .row
+      .col.s3
+        h5.orange-text#text-darken-2 My Profile
+        each r in username
+          .card-panel.deep-orange#lighten-7.lighten-5
+            .form-group
+              img.img-thumbnails(src='./images/profile/'+ r.image,style = "width: 100%; height:100%")
+              br
+              a#btnprofileedit(href='/updateprofile')
+                span(align='center').fa.fa-pencil-square.fa-2x
+              h4.indigo-text#text-darken-2=r.fullname
+
+      .col.s5
+        h5.orange-text.text-darken-2(align='center') Tweets....
+        each book in res
+          - console.log(book);
+          .row
+            .card-panel.deep-orange#lighten-7.lighten-5
+              p
+                h5.indigo-text#text-darken-2=book.fullname + '   tweeted'
+                br
+                br
+                span= book.t_tweetText
+                br
+                br
+                .form-group
+                - if(book.t_image){
+                   img.img-thumbnails(src='./images/tweetimage/'+ book.t_image, style = "width: 100%; height:100%")
+                - }
+                br
+                span= book.t_time
+                br
+                br
+                a(href='#')#like.span.fa.fa-heart.fa-1x
+                |  &nbsp
+                span= book.t_likeCount
 
 
-  .navbar-collapse.collapse.navbar-default
-    ul.nav.navbar-nav.navbar-left
-      li#nav-home
-        a(href='/header')
-          i.fa.fa-home.fa-3x
-
-          span.nav-icon-text Home
-      li#nav-notification
-        a(href='#')
-          i.fa.fa-bell.fa-3x
-
-          span.nav-icon-text Notification
-      li#nav-meassage
-        a(href='#')
-          i.fa.fa-comment.fa-3x
-
-          span.nav-icon-text Messages
-
-    .form-group
-      a#btnsignout(href='/logout')
-        span.fa.fa-sign-out.fa-3x
-
-
-    //tweet button with popup window
-    button#myBtn.btn.btn-info.btn-lg(type='button', data-toggle='modal', data-target='#exampleModal') Tweet
-
-    #exampleModal.modal.fade(role='dialog', tabindex="-1",aria-labelledby="exampleModalLabel" aria-hidden="true")
-      .modal-dialog
-        // Modal content
-        .modal-content
-          .modal-header
-            button.close(type='button', data-dismiss='modal') ×
-            h4.modal-title Compose New Tweet
-          .modal-body
-            form(id='tweet', method='post', action='/header')
-              .form-group
-                label(for='comment') Whats Happening???
-                textarea#comment.form-control(rows='5',name='comment')
-                a(href='/header')
-                  button#tweetbtn.btn-info(type='submit') Tweet
-
-          .modal-footer
-            button.btn.btn-default(type='button', data-dismiss='modal') Close
-
-
-
-
-  .col-md-3
-    each name in follow
-      .well
-        span= name.fullname
-        form(method='post', action='/follow')
-          br
-          span.fa.fa-user.fa-3x
-          br
-          //- input(type='hidden', name='myfollow', value = name.id)
-          //- button(type='submit').fa.fa-hand-o-right.fa-2x
-        form(method='post', action='/unfollow')
-          input(type='hidden', name='myunfollow', value = name.id)
-          button(type='submit').fa.fa-times.fa-2x
-
-  div.align-center
-    form#profile(action='/profile' method='POST')
-      div(align='center')
-        each r in res
-          div(align='center')
-            h1 Update Your Profile
-            div#divregistername
-              label Name
-              input(type="text", name="fullname" id="fullname" value=r.fullname)
-            div
-              label Email-Id
-              input(type="email", name="emailid" id="emailid" value=r.emailid)
-            div#divregisterpassword
-              label Password
-              input(type="text", name="password" id="password" value=r.password)
-            div
-              input.button(type="submit", name="Submit")
-
+      .col.s3
+        h5.orange-text#text-darken-2  My Followers
+        each name in follow
+          .card-panel.deep-orange#lighten-7.lighten-5
+            .form-group(align='center')
+              h4= name.fullname
+              form(method='post', action='/unfollow')
+                img.img-circle(src='./images/profile/'+ name.image,width ="100px" height="100px")
+                br
+                input(type='hidden', name='myfollow', value = name.f_followerid)
+                br
+                //- button.unfollowbtn.btn.btn-primary(type='submit') Unfollow
+                button.waves-effect.waves-red.indigo.btn(type='submit',style= "margin-left:50px") Unfollow
+                br
+                br
 
 
 

@@ -1,17 +1,17 @@
 extends ./layouts/main.pug
 
 block content
-
-
   .container
     .wrapper
-      form.form-login(action='/login' method='POST')
-        h2.form-signin-heading Please Login
-        br
-        br
-        input.form-control(type='text', name='emailid', placeholder='Email Address', required='', autofocus='',id = "emailid")
-        input.form-control(type='password', name='password', placeholder='Password', required='', id= 'password')
+        form.form-login(action='/login' method='POST')
+          h3.indigo-text.text-darken-2 Please Login
+          br
+          br
+          input.form-control(type='text', name='emailid', placeholder='Email Address', required='', autofocus='',id = "emailid")
+          input.form-control(type='password', name='password', placeholder='Password', required='', id= 'password')
+          button.waves-effect.waves-light.indigo.btn.btn-block(type='submit') Login
+          br
+          br
+          br
+          a(href='/register' method='POST') SignUp
 
-        button.btn.btn-lg.btn-info.btn-block(type='submit', name='submit') Login
-        br
-        br

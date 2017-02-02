@@ -1,19 +1,17 @@
 extends ./layouts/main.pug
 
 block content
-
-
   .container
     .wrapper
-      form.form-signup(action='/register' method='POST')
-        h2.form-signin-heading Join Today
+      form.form-signup(action='/register' method='POST', enctype='multipart/form-data')
+        h3.indigo-text.text-darken-2 Join Today
         br
         br
         input.form-control(type='text', name='fullname', placeholder='Enter your name', required='', autofocus='',id='fullname')
         input.form-control(type='email', name='emailid', placeholder='Email-Id', required='', id="emailid")
         input.form-control(type='password', name='password', placeholder='password', required='', id="password")
-
-        button.btn.btn-lg.btn-info.btn-block(type='submit', name='submit') SignUp
+        input.form-control(type='file', name='file' ,style = "margin : -5px 0px 10px 0px ;color : #00aced;" ,required )
+        button.waves-effect.waves-light.indigo.btn.btn-block(type='submit') SignUp
         br
         br
 

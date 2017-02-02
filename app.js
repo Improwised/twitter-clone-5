@@ -3,7 +3,7 @@ const path = require('path');
 
 const express = require('express');
 const bodyParser = require('body-parser');
-var expressValidator = require('express-validator');
+const expressValidator = require('express-validator');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const session = require('express-session');
@@ -42,6 +42,8 @@ app.use(session({
 
 app.use('/', routes);
 app.use('/header', routes);
+app.use('/follow', routes);
+app.use('/unfollow', routes);
 // Catch 404 errors
 // Forwarded to the error handlers
 app.use((req, res, next) => {

@@ -90,7 +90,8 @@ CREATE TABLE tbl_register (
     id integer DEFAULT nextval('tbl_register_id_seq'::regclass) NOT NULL,
     fullname text,
     emailid text,
-    password text
+    password text,
+    image text
 );
 
 
@@ -119,7 +120,8 @@ CREATE TABLE tbl_tweet (
     "t_tweetText" text,
     "t_likeCount" integer,
     t_time timestamp without time zone DEFAULT '2017-01-19 13:01:27.066544'::timestamp without time zone,
-    t_userid integer
+    t_userid integer,
+    t_image text
 );
 
 
@@ -144,14 +146,14 @@ COPY tbl_follower (f_id, f_userid, f_followerid) FROM stdin;
 -- Name: tbl_follower_f_id_seq; Type: SEQUENCE SET; Schema: public; Owner: riddhi
 --
 
-SELECT pg_catalog.setval('tbl_follower_f_id_seq', 38, true);
+SELECT pg_catalog.setval('tbl_follower_f_id_seq', 93, true);
 
 
 --
 -- Data for Name: tbl_register; Type: TABLE DATA; Schema: public; Owner: riddhi
 --
 
-COPY tbl_register (id, fullname, emailid, password) FROM stdin;
+COPY tbl_register (id, fullname, emailid, password, image) FROM stdin;
 \.
 
 
@@ -159,14 +161,14 @@ COPY tbl_register (id, fullname, emailid, password) FROM stdin;
 -- Name: tbl_register_id_seq; Type: SEQUENCE SET; Schema: public; Owner: riddhi
 --
 
-SELECT pg_catalog.setval('tbl_register_id_seq', 15, true);
+SELECT pg_catalog.setval('tbl_register_id_seq', 61, true);
 
 
 --
 -- Data for Name: tbl_tweet; Type: TABLE DATA; Schema: public; Owner: riddhi
 --
 
-COPY tbl_tweet (t_id, "t_tweetText", "t_likeCount", t_time, t_userid) FROM stdin;
+COPY tbl_tweet (t_id, "t_tweetText", "t_likeCount", t_time, t_userid, t_image) FROM stdin;
 \.
 
 
@@ -174,7 +176,7 @@ COPY tbl_tweet (t_id, "t_tweetText", "t_likeCount", t_time, t_userid) FROM stdin
 -- Name: tbl_tweet_t_id_seq; Type: SEQUENCE SET; Schema: public; Owner: riddhi
 --
 
-SELECT pg_catalog.setval('tbl_tweet_t_id_seq', 21, true);
+SELECT pg_catalog.setval('tbl_tweet_t_id_seq', 127, true);
 
 
 --

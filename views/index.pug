@@ -2,15 +2,14 @@ extends ./layouts/main.pug
 
 block content
   .container
-    .well
-      div.start-temp
-        h1#title Welcome to Twitter!!!
-        div.paragraph
-          p Use this document as a way to quickly start any new project.
-          p All you get is this text and a mostly barebones HTML document.
-          p Stay connected with people
+    div.start-temp
+      h1#title.indigo-text.text-darken-2 Welcome to Twitter-clone-5!!!
+      div.paragraph
+        p Use this document as a way to quickly start any new project.
+        p All you get is this text and a mostly barebones HTML document.
+        p Stay connected with people
 
-        form(action='/login')
-          button.btn1.btn.btn-info Login
-        form(action='/register')
-          button.btn1.btn.btn-info SignUp
+      form(action='/login')
+        button.waves-effect.waves-light.indigo.btn.btn1.btn-block Login
+      form(action='/register')
+        button.waves-effect.waves-light.indigo.btn.btn1.btn-block SignUp

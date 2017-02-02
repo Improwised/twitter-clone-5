@@ -1,0 +1,31 @@
+extends ./layouts/main.pug
+
+block content
+  include navbar.pug
+  .container
+    .row
+      form(action='/updateprofile' method='POST', enctype='multipart/form-data')
+        .form-group
+          each r in res
+            h3.indigo-text.text-darken-2(align='center') Update Your Profile
+            br
+            .col.s3
+              div(align='center')
+              img.img-circle(src='./images/profile/'+ r.image,width ="200px" height="200px")
+              br
+              form(method='post', enctype='multipart/form-data', action='/profilepictureupload')
+                br
+                input.form-control(type='file', name='file' ,style = "margin : -5px 0px 10px 0px ;color : #00aced;" ,required )
+
+            .col.s8
+              h5.indigo-text#text-darken-2 Name
+              input.form-control(type="text", name="fullname" id="fullname" value=r.fullname)
+
+              h5.indigo-text#text-darken-2 Email-Id
+              input.form-control(type="email", name="emailid" id="emailid" value=r.emailid)
+
+              h5.indigo-text#text-darken-2 Password
+              input.form-control(type="text", name="password" id="password" value=r.password)
+
+              input.waves-effect.waves-light.indigo.btn(type='submit',name="Submit")
+
