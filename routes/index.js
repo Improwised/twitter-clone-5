@@ -32,37 +32,52 @@ router.get('/register', (req, res, next) => {
 
 router.post('/register', upload.single('file'), function (req, res, next) {
 
-  const fullname = req.body.fullname;
-  const emailid = req.body.emailid;
-  const password = req.body.password;
+  const fullname = req.sanitize('fullname').trim();
+  const emailid = req.sanitize('emailid').trim();
+  const password = req.sanitize('password').trim();
+  const securityquestion = req.sanitize('question').trim();
+  const securityanswer = req.sanitize('answer').trim();
 
   req.checkBody('fullname', 'Username is required').notEmpty();
-  req.checkBody('emailid', 'Email is required').notEmpty();
-  req.checkBody('emailid', 'Email is not valid').isEmail();
-  req.checkBody('password', 'Password is required').notEmpty();
+  if(emailid !== '') {
+    req.checkBody('emailid', 'Email is not valid').isEmail();
+  } else {
+    req.checkBody('emailid', 'Email is required').notEmpty();
+  }
+  req.checkBody('question', 'question is required').notEmpty();
+  req.checkBody('answer', 'answer is required').notEmpty();
 
   const errors = req.validationErrors();
-  let photo = ''; /*= req.file.filename;*/
-  if (req.file) {
-    photo = req.file.filename;
+  if (errors) {
+    res.render('register', {
+      errors,
+    });
   } else {
-    photo = 'twitter.jpg';
-  }
-  const query = DB.builder()
-    .insert()
-    .into('tbl_register')
-    .set('fullname', req.body.fullname)
-    .set('emailid', req.body.emailid)
-    .set('password', req.body.password)
-    .set('image', photo)
-    .toParam();
-  DB.executeQuery(query, (error) => {
-    if (error) {
-      next(error);
-      return;
+    let photo = ''; /*= req.file.filename;*/
+    if (req.file) {
+      photo = req.file.filename;
+    } else {
+      photo = 'twitter.jpg';
     }
-    res.redirect('login');
-  });
+    console.log(req.body.question + '---->>>>>')
+    const query = DB.builder()
+      .insert()
+      .into('tbl_register')
+      .set('fullname', fullname)
+      .set('emailid', emailid)
+      .set('password', password)
+      .set('image', photo)
+      .set('securityquestion', securityquestion)
+      .set('securityanswer', securityanswer)
+      .toParam();
+    DB.executeQuery(query, (error) => {
+      if (error) {
+        next(error);
+        return;
+      }
+      res.redirect('/login');
+    });
+  }
 });
 
 router.get('/login', (req, res, next) => {
@@ -71,11 +86,14 @@ router.get('/login', (req, res, next) => {
 
 router.post('/login', (req, res, next) => {
   const session = req.session;
-  const emailid = req.body.emailid;
-  const password = req.body.password;
+  const emailid = req.sanitize('emailid').trim();
+  const password = req.sanitize('password').trim();
 
-  req.checkBody('emailid', 'Email is required').notEmpty();
-  req.checkBody('emailid', 'Email is not valid').isEmail();
+ if(emailid !== '') {
+    req.checkBody('emailid', 'Email is not valid').isEmail();
+  } else {
+    req.checkBody('emailid', 'Email is required').notEmpty();
+  }
   req.checkBody('password', 'Password is required').notEmpty();
 
   const query = DB.builder()
@@ -93,7 +111,6 @@ router.post('/login', (req, res, next) => {
       session.userid = results.rows[0].id;
       res.redirect('header');
     } else {
-
       res.render('login');
     }
   });
@@ -107,7 +124,6 @@ router.get('/logout', (req, res, next) => {
       if(err) {
         console.log(err);
       } else {
-        console.log("destroyed ----->>>>", req.session);
         res.render('login');
       }
     });
@@ -195,9 +211,7 @@ router.get('/header', (req, res, next) => {
 });
 
 router.post('/header', uploadtweet.single('file'), function (req, res, next) {
-  console.log("--->>>>>");
   let filename = '';
-
   if (req.file) {
    filename = req.file.filename;
   } else {
@@ -232,6 +246,7 @@ router.get('/profile', (req, res, next) => {
           .field('t_time')
           .from('tbl_register', 'r')
           .join(DB.builder().select().from('tbl_tweet'), 't', 't.t_userid = r.id')
+          .where('emailid = ?', session.emailid)
           .toParam();
     DB.executeQuery(query, (error, results) => {
       if (error) {
@@ -417,6 +432,47 @@ router.get('/updateprofile', (req, res) => {
 
 router.post('/updateprofile', upload.single('file'), function (req, res) {
   const session = req.session;
+  const query = DB.builder()
+    .update()
+      .table('tbl_register')
+      .set('fullname', req.body.fullname)
+      .set('emailid', req.body.emailid)
+      .set('password', req.body.password)
+      .where('emailid = ?', session.emailid)
+      .toParam();
+  DB.executeQuery(query, (error, next) => {
+    if (error) {
+      next(error);
+    }
+  });
+  res.redirect('updateprofile');
+});
+
+
+router.get('/profilepictureupload', (req, res, next) => {
+  const session = req.session;
+  if(req.session.emailid) {
+  const query = DB.builder()
+    .select()
+    .field('image')
+    .from('tbl_register')
+    .where('emailid = ?', session.emailid)
+    .toParam();
+  return DB.executeQuery(query, (error, results) => {
+    if (error) {
+      next(error);
+      return;
+    }
+    res.render('updateprofile', { res: results.rows });
+  });
+  } else {
+    res.render('login');
+  }
+});
+
+router.post('/profilepictureupload', upload.single('file'), function (req, res) {
+  const session = req.session;
+  if(req.session.emailid) {
   let photo = ''; /*= req.file.filename;*/
   if (req.file) {
     photo = req.file.filename;
@@ -426,9 +482,6 @@ router.post('/updateprofile', upload.single('file'), function (req, res) {
   const query = DB.builder()
     .update()
       .table('tbl_register')
-      .set('fullname', req.body.fullname)
-      .set('emailid', req.body.emailid)
-      .set('password', req.body.password)
       .set('image', photo)
       .where('emailid = ?', session.emailid)
       .toParam();
@@ -438,6 +491,54 @@ router.post('/updateprofile', upload.single('file'), function (req, res) {
     }
   });
   res.redirect('updateprofile');
+  } else {
+      res.render('login');
+    }
+});
+
+router.get('/deleteaccount', (req, res, next) => {
+  const session = req.session;
+  if(req.session.emailid) {
+  const query = DB.builder()
+    .delete()
+    .from('tbl_register')
+    .where('emailid = ?', session.emailid)
+    .toParam();
+  return DB.executeQuery(query, (error, results) => {
+    if (error) {
+      next(error);
+      return;
+    } else {
+      res.render('login');
+    }
+    res.render('login');
+    });
+  }
+});
+
+router.get('/resetpassword', (req, res, next) => {
+  res.render('resetpassword');
+});
+router.get('/getpassword', (req, res, next) => {
+  res.render('getpassword');
+});
+
+router.post('/resetpassword', (req, res, next) => {
+  const query = DB.builder()
+    .select()
+    .field('password')
+    .from('tbl_register')
+    .where('emailid = ?', req.body.emailid)
+    .where('securityquestion = ?', req.body.question)
+    .where('securityanswer = ?', req.body.answer)
+    .toParam();
+  DB.executeQuery(query, (error, results) => {
+    if (error) {
+      next(error);
+    }
+    res.render('getpassword', { res: results.rows });
+  });
+
 });
 
 

@@ -67,6 +67,30 @@ const server = require('../app');
           });
         });
       });
+    describe('GET /resetpassword', function() {
+      it('should return get password page', function(done) {
+        request(server)
+          .get('/resetpassword')
+          .expect('Content-type', 'text/html; charset=utf-8')
+          .expect(200)
+          .end(function(err, res) {
+            res.status.should.be.equal(200);
+            done();
+          });
+        });
+      });
+    // describe('GET /getpassword', function() {
+    //   it('should return reset password page', function(done) {
+    //     request(server)
+    //       .get('/getpassword')
+    //       .expect('Content-type', 'text/html; charset=utf-8')
+    //       .expect(200)
+    //       .end(function(err, res) {
+    //         res.status.should.be.equal(200);
+    //         done();
+    //       });
+    //     });
+    //   });
     describe('POST /register', function() {
       it('it should response login page', function(done){
       const user = {
@@ -79,13 +103,13 @@ const server = require('../app');
       request(server)
         .post('/register')
         .send(user)
-        .expect(302)
+        .expect(200)
         .end(function (err, res) {
         console.log(err);
         if (err) {
           done(err);
         } else {
-          res.status.should.be.equal(302);
+          res.status.should.be.equal(200);
           done();
         }
      });
@@ -136,13 +160,12 @@ const server = require('../app');
    });
  });
 
-describe('POST /updateprofile', function() {
+    describe('POST /updateprofile', function() {
       it('it should response updtaeprofile page', function(done){
       const user = {
         fullname: 'vivek',
         emailid: 'vivek@vivek.com',
         password: 'vivek',
-        image: 'twitter.jpg',
       }
       request(server)
         .post('/updateprofile')
@@ -159,3 +182,79 @@ describe('POST /updateprofile', function() {
      });
    });
  });
+
+    describe('GET /profilepictureupload', function() {
+      it('it should response updtaeprofile page', function(done){
+      request(server)
+        .get('/updateprofile')
+        .expect(200)
+        .end(function (err, res) {
+        console.log(err);
+        if (err) {
+          done(err);
+        } else {
+          res.status.should.be.equal(200);
+          done();
+        }
+     });
+   });
+ });
+
+    describe('POST /profilepictureupload', function() {
+      it('it should response update profile page', function(done){
+      const user = {
+        image: 'twitter.jpg',
+      }
+      request(server)
+        .post('/profilepictureupload')
+        .send(user)
+        .expect(200)
+        .end(function (err, res) {
+        console.log(err);
+        if (err) {
+          done(err);
+        } else {
+          res.status.should.be.equal(200);
+          done();
+        }
+     });
+   });
+ });
+
+ //    describe('POST /deleteaccount', function() {
+ //      it('it should response update profile page', function(done){
+ //        request(server)
+ //        .post('/deleteaccount')
+ //        .end(function (err, res) {
+ //          console.log('--->>>', res.status);
+ //        console.log(err);
+ //        if (err) {
+ //          done(err);
+ //        } else {
+ //          res.status.should.be.equal(304);
+ //          done();
+ //        }
+ //     });
+ //   });
+ // });
+
+ //    describe('POST /resetpassword', function() {
+ //      it('it should response updateprofile page', function(done){
+ //      const user = {
+ //        password: 'vivek',
+ //      }
+ //      request(server)
+ //        .post('/resetpassword')
+ //        .send(user)
+ //        .expect(302)
+ //        .end(function (err, res) {
+ //        console.log(err);
+ //        if (err) {
+ //          done(err);
+ //        } else {
+ //          res.status.should.be.equal(302);
+ //          done();
+ //        }
+ //     });
+ //   });
+ // });

@@ -9,10 +9,10 @@ block content
 
           span.nav-icon-text Home
       li#nav-notification
-        a(href='#')
-          i.fa.fa-bell.fa-2x
-
-          span.nav-icon-text Notification
+        a(href='updateprofile')
+          i.fa.fa-pencil-square-o.fa-2x
+            span.sr-only
+          span.nav-icon-text Profile
       li#nav-meassage
         a(href='#')
           i.fa.fa-comment.fa-2x
@@ -34,13 +34,13 @@ block content
         .modal-content
           .modal-header
             button.close(type='button', data-dismiss='modal') ×
-            h4.modal-title Compose New Tweet
+            h4(style='font-family:"Comic Sans MS", cursive, sans-serif;').modal-title Compose New Tweet
           .modal-body
             form(id='tweet', method='post', action='/header', enctype='multipart/form-data')
               .form-group
                 label(for='comment') Whats Happening???
-                textarea#comment.form-control(rows='5',name='comment', maxlength = '140')
-                input.form-control(type='file', name='file' ,style = "margin : -5px 0px 10px 0px ;color : #00aced;" )
+                textarea#comment.form-control(rows='5',name='comment', maxlength = '140', autofocus, required)
+                input.form-control(type='file', name='file' ,style = "margin : -5px 0px 10px 0px ;color : #00aced;")
                 a(href='/header')
                 button.btn.btn-info(type='submit') Tweet
 
@@ -56,7 +56,7 @@ block content
     .row
 
       .col-md-3
-        h3(align='center')  Your Profile
+        h3(align='center', style='font-family:"Palatino Linotype", "Book Antiqua", Palatino, serif;')  Your Profile
         a(href='/profile')
           .well
             p
@@ -69,20 +69,20 @@ block content
         //- expandable list
         #menu
         .panel.list-group
-          .form(action='/followername', method='get')
-            a.list-group-item(href='#', data-toggle='collapse', data-target='#sm',   data-parent='#menu')
-              | Followers
-              span.label.label-info 5
+          //- .form(action='/followername', method='get')
+          a.list-group-item(data-toggle='collapse', data-target='#sm',   data-parent='#menu')
+            | Profile
+            //- span.label.label-info 5
 
-            #sm.sublinks.collapse
-              a.list-group-item.small
-                span.glyphicon.glyphicon-chevron-right
-                |  inbox
-              a.list-group-item.small
-                span.glyphicon.glyphicon-chevron-right
-                |  sent
+          #sm.sublinks.collapse
+            a(href='/updateprofile').list-group-item.small
+              span.glyphicon.glyphicon-chevron-right
+              |  Update Profile
+            a(href='/updateprofile').list-group-item.small
+              span.glyphicon.glyphicon-chevron-right
+              |  Update Profile Picture
 
-          a.list-group-item(href='#', data-toggle='collapse', data-target='#sl', data-parent='#menu')
+          a.list-group-item(data-toggle='collapse', data-target='#sl', data-parent='#menu')
             | Following
             span.glyphicon.glyphicon-tag.pull-right
           #sl.sublinks.collapse
@@ -97,7 +97,7 @@ block content
 
 
       .col-md-6
-        h3(align='center')   Tweets....
+        h3(align='center', style='font-family:"Palatino Linotype", "Book Antiqua", Palatino, serif;')   Tweets
         each book in tweets
           - console.log(book);
           .row
@@ -125,7 +125,7 @@ block content
 
 
       .col-md-3
-        h3(align='center') Want to Follow???
+        h3(align='center', style='font-family:"Palatino Linotype", "Book Antiqua", Palatino, serif;') Want to Follow???
         each name in follow
           .well
             .form-group(align='center')

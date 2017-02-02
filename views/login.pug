@@ -5,12 +5,24 @@ block content
   .container
     .wrapper
       form.form-login(action='/login' method='POST')
-        h2.form-signin-heading Please Login
+        h2(style='font-family:"Palatino Linotype", "Book Antiqua", Palatino, serif;').form-signin-heading Please Login...
         br
         br
         input.form-control(type='text', name='emailid', placeholder='Email Address', required='', autofocus='',id = "emailid")
+        -if(errors)
+          each error in errors
+            -if(error.param == 'emailid')
+              div= error.msg
         input.form-control(type='password', name='password', placeholder='Password', required='', id= 'password')
+        -if(errors)
+          each error in errors
+            -if(error.param == 'password')
+              div= error.msg
 
         button.btn.btn-lg.btn-info.btn-block(type='submit', name='submit') Login
         br
+        label Don't Have an Account?
+        a(href='register', style = "margin : 5px;") Create Account
+        label Forgot Password?
+        a(href='resetpassword', style = "margin : 5px;") Click Here!
         br

@@ -10,10 +10,11 @@ block content
 
           span.nav-icon-text Home
       li#nav-notification
-        a(href='#')
-          i.fa.fa-bell.fa-2x
+        a(href='profile')
+          i.fa.fa-pencil-square-o.fa-2x
+            span.sr-only
+          span.nav-icon-text Profile
 
-          span.nav-icon-text Notification
       li#nav-meassage
         a(href='#')
           i.fa.fa-comment.fa-2x
@@ -51,31 +52,42 @@ block content
         span.fa.fa-user.fa-2x
 
   .container
-
     .row
-      form(action='/updateprofile' method='POST', enctype='multipart/form-data')
-        .form-group
-          each r in res
-            h1(align='center') Update Your Profile
-            br
-            .col-md-3
-              div(align='center')
-              img.img-thumbnail(src='./images/profile/'+ r.image,width ="200px" height="200px")
-              br
-              form(method='post', enctype='multipart/form-data', action='/profilepictureupload')
+      .col-md-12
+    .row
+      .col-md-3
+        h1(style='font-family:"Comic Sans MS", cursive, sans-serif;', align='center') Profile Picture
+        form(method='post', enctype='multipart/form-data', action='/profilepictureupload')
+          .form-group(align='center')
+            if res
+              each r in res
+                img.img-thumbnail(src='./images/profile/'+ r.image,width ="213px" height="213px")
                 br
-                input.form-control(type='file', name='file' ,style = "margin : -5px 0px 10px 0px ;color : #00aced;" ,required )
+                br
+                input.form-control(type='file', name='file' ,style = "margin : -5px 0px 9px 0px ;color : #00aced;", required)
+                button.btn.btn-info(type='submit') Upload Profile Picture From here...!!!
+      .col-md-9
+        h1(style='font-family:"Comic Sans MS", cursive, sans-serif;', align='center') Update Your Profile
+        form(action='/updateprofile' method='POST')
+          .form-group
+            if res
+              each r in res
+                label Name
+                input.form-control(type="text", name="fullname" id="fullname" value=r.fullname)
 
-            .col-md-9
-              label Name
-              input.form-control(type="text", name="fullname" id="fullname" value=r.fullname)
+                label Email-Id
+                input.form-control(type="email", name="emailid" id="emailid" value=r.emailid)
 
-              label Email-Id
-              input.form-control(type="email", name="emailid" id="emailid" value=r.emailid)
+                label Password
+                input.form-control(type="text", name="password" id="password" value=r.password, autocomplete='off')
 
-              label Password
-              input.form-control(type="text", name="password" id="password" value=r.password)
+                input.form-control.button.btn-info(type="submit", name="Submit")
+  .container
+    .row
+      a.btn.btn-danger(href='/deleteaccount')
+        i.fa.fa-trash-o.fa-lg
+        |  Delete Your Account
 
-              input.form-control.button.btn-info(type="submit", name="Submit")
+
 
 

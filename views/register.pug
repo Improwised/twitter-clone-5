@@ -5,14 +5,41 @@ block content
   .container
     .wrapper
       form.form-signup(action='/register' method='POST', enctype='multipart/form-data')
-        h2.form-signin-heading Join Today...
+        h2(style='font-family:"Comic Sans MS", cursive, sans-serif;', align='center').form-signin-heading Join Today...
         br
         br
-        input.form-control(type='text', name='fullname', placeholder='Enter your name', required='', autofocus='',id='fullname')
-        input.form-control(type='email', name='emailid', placeholder='Email-Id', required='', id="emailid")
-        input.form-control(type='password', name='password', placeholder='password', required='', id="password")
+        input.form-control(type='text', name='fullname', placeholder='Enter your name', autofocus='',id='fullname')
+        -if(errors)
+          each error in errors
+            -if(error.param == 'fullname')
+              div= error.msg
+        input.form-control(type='email', name='emailid', placeholder='Email-Id', id="emailid")
+        -if(errors)
+          each error in errors
+            -if(error.param == 'emailid')
+              div= error.msg
+        input.form-control(type='password', name='password', placeholder='password', id="password")
+        -if(errors)
+          each error in errors
+            -if(error.param == 'password')
+              div= error.msg
         label Select Profile Picture :
         input.form-control(type='file', name='file' ,style = "margin : -5px 0px 10px 0px ;color : #00aced;" ,required )
+        label Select Your Security Question :
+        br
+        select#question(name='question')
+          option(value='bof') Birthplace of your father
+          option(value='bom') Birthplace of your Mother
+          option(value='fcc') Your Favourite Cartoon Character
+          option(value='fmn') Your First Mobile-Number
+          option(value='bf') Your Best Friend
+        br
+        br
+        input.form-control(type='text', name='answer', placeholder='Your Answer', required='', autofocus='',id = "answer")
         button.btn.btn-lg.btn-info.btn-block(type='submit', name='submit') SignUp
         br
         br
+
+        script.
+          var question = document.getElementById("question");
+          var returnvalue = question.options[question.selectedIndex].value;
