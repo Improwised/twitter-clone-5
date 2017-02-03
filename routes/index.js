@@ -1,5 +1,4 @@
 const express = require('express');
-
 const DB = require('../helpers/db');
 
 const router = express.Router();
@@ -33,7 +32,7 @@ router.get('/register', (req, res) => {
   res.render('register');
 });
 
-router.post('/register', upload.single('file'), function (req, res, next) {
+router.post('/register', upload.single('file'), (req, res, next) => {
   const fullname = req.sanitize('fullname').trim();
   const emailid = req.sanitize('emailid').trim();
   const password = req.sanitize('password').trim();
@@ -79,6 +78,7 @@ router.post('/register', upload.single('file'), function (req, res, next) {
     });
   }
 });
+
 
 router.get('/login', (req, res) => {
   res.render('login');
@@ -146,40 +146,44 @@ router.get('/header', (req, res, next) => {
           .select()
           .field('f_followerid')
           .from('tbl_follower')
-          .where('f_userid = ?', req.session.userid),
-        )
-        .or('t.t_userid= ?', req.session.userid),
-      )
+          .where('f_userid = ?', req.session.userid))
+        .or('t.t_userid= ?', req.session.userid))
       .order('t_time', false);
+    console.log(query.toString());
     DB.executeQuery(query.toParam(), (error, tweets) => {
       if (error) {
         next(error);
       }
       query = DB.builder()
-        .select()
-        .from('tbl_register')
-        .where('id != ?', session.userid)
-        .where('id NOT IN ?',
-      DB.builder()
-        .select()
-        .field('f_followerid')
-        .from('tbl_follower')
-        .where('f_userid = ?', session.userid))
-        .toParam();
-      DB.executeQuery(query, (follow) => {
-        if (error) {
-          next(error);
-        }
-        query = DB.builder()
           .select()
-          .from('tbl_register', 'r')
-          .field('fullname')
-          .field('image')
-          .where('id = ?', req.session.userid)
-          .toParam();
-        DB.executeQuery(query, (username) => {
-          if (error) {
-            next(error);
+          .from('tbl_register')
+          .where('id != ?', session.userid)
+          .where('id NOT IN ?',
+          DB.builder()
+             .select()
+             .field('f_followerid')
+             .from('tbl_follower')
+             .where('f_userid = ?', session.userid))
+             .toParam();
+      DB.executeQuery(query, (error1, follow) => {
+        if (error1) {
+          next(error1);
+          return;
+        }
+
+        query = DB.builder()
+        .select()
+        .from('tbl_register', 'r')
+        .field('fullname')
+        .field('image')
+        .where('id = ?', req.session.userid)
+        .toParam();
+        console.log(query);
+
+        DB.executeQuery(query, (error2, username) => {
+          if (error2) {
+            next(error2);
+            return;
           }
           res.render('header', {
             tweets: tweets.rows,
@@ -194,7 +198,7 @@ router.get('/header', (req, res, next) => {
   }
 });
 
-router.post('/header', uploadtweet.single('file'), function (req, res, next) {
+router.post('/header', uploadtweet.single('file'), (req, res, next) => {
   let filename = '';
   if (req.file) {
     filename = req.file.filename;
@@ -218,6 +222,7 @@ router.post('/header', uploadtweet.single('file'), function (req, res, next) {
   });
 });
 
+
 router.get('/profile', (req, res, next) => {
   let query;
   const session = req.session;
@@ -227,9 +232,12 @@ router.get('/profile', (req, res, next) => {
       .field('fullname')
       .field('t_tweetText')
       .field('t_time')
+      .field('image')
+      .field('t_image')
       .from('tbl_register', 'r')
       .join(DB.builder().select().from('tbl_tweet'), 't', 't.t_userid = r.id')
-      .where('emailid = ?', session.emailid)
+      .where('emailid = ?', req.session.emailid)
+      .order('t_time', false)
       .toParam();
     DB.executeQuery(query, (error, results) => {
       if (error) {
@@ -245,9 +253,10 @@ router.get('/profile', (req, res, next) => {
         .join(DB.builder().select().from('tbl_follower'), 'f', 'r.id = f.f_followerid')
         .where('r.id != ?', session.userid)
         .toParam();
-      DB.executeQuery(query, (follow) => {
-        if (error) {
-          next(error);
+      DB.executeQuery(query, (error1, follow) => {
+        if (error1) {
+          next(error1);
+          return;
         }
         query = DB.builder()
           .select()
@@ -256,29 +265,15 @@ router.get('/profile', (req, res, next) => {
           .field('image')
           .where('id = ?', req.session.userid)
           .toParam();
-          console.log(query);
-        DB.executeQuery(query, (error, username) => {
-          if (error) {
-            next(error);
+        DB.executeQuery(query, (error2, username) => {
+          if (error2) {
+            next(error2);
+            return;
           }
-          query = DB.builder()
-            .select()
-            .from('tbl_register','r')
-            .field('fullname')
-            .field('image')
-            .where('id = ?', req.session.userid)
-            .toParam();
-            console.log(query);
-          DB.executeQuery(query, (error, username1) => {
-            if (error) {
-              next(error);
-            }
-            res.render('profile', {
+          res.render('profile', {
             res: results.rows,
             follow: follow.rows,
-            username : username.rows,
-            username1 : username1.rows,
-            });
+            username: username.rows,
           });
         });
       });
@@ -288,7 +283,7 @@ router.get('/profile', (req, res, next) => {
   }
 });
 
-router.post('/profile', (req, res) => {
+router.post('/profile', (req, res, next) => {
   const query = DB.builder()
     .insert()
       .into('tbl_tweet')
@@ -313,70 +308,45 @@ router.post('/follow', (req, res, next) => {
     .set('f_userid', session.userid)
     .set('f_followerid', req.body.myfollow)
     .toParam();
-  DB.executeQuery(query, (error, results) => {
+  DB.executeQuery(query, (error) => {
     if (error) {
       next(error);
     }
     res.redirect('/header');
-   });
+  });
 });
 
 router.post('/unfollow', (req, res, next) => {
+  const query = DB.builder()
+      .delete()
+      .from('tbl_follower')
+      .where('f_followerid=?', req.body.myfollow)
+      .toParam();
+
+  DB.executeQuery(query, (error) => {
+    if (error) {
+      next(error);
+    }
+    res.redirect('/profile');
+  });
+});
+
+router.get('/updateprofile', (req, res, next) => {
   const session = req.session;
   const query = DB.builder()
-    .delete()
-    .from('tbl_follower')
-    .where('f_followerid=?', req.body.myfollow)
+    .select()
+    .from('tbl_register')
+    .where('emailid = ? ', session.emailid)
     .toParam();
   DB.executeQuery(query, (error, results) => {
     if (error) {
       next(error);
     }
-    res.redirect('/profile');
-   });
-});
-
-router.get('/followername', (req, res, next) => {
-  const query = DB.builder()
-    .select()
-    .field('fullname')
-    .field('t_tweetText')
-    .field('t_time')
-    .from('tbl_register', 'r')
-    .where('t.t_userid = r.id')
-    .toParam()
-  DB.executeQuery(query, (error) => {
-    if (error) {
-      next(error);
-    }
+    res.render('updateprofile', { res: results.rows });
   });
 });
 
-router.get('/updateprofile', (req, res) => {
-  const session = req.session;
-  if (req.session.emailid) {
-    const query = DB.builder()
-      .select()
-      .field('fullname')
-      .field('emailid')
-      .field('password')
-      .field('image')
-      .from('tbl_register')
-      .where('emailid = ?', session.emailid)
-      .toParam();
-    DB.executeQuery(query, (error, next, results) => {
-      if (error) {
-        next(error);
-      }
-      res.render('updateprofile', { res: results.rows });
-    });
-  } else {
-    res.render('login');
-  }
-});
-
-
-router.post('/updateprofile', upload.single('file'), function (req, res) {
+router.post('/updateprofile', upload.single('file'), (req, res) => {
   const session = req.session;
   const query = DB.builder()
     .update()
@@ -391,7 +361,7 @@ router.post('/updateprofile', upload.single('file'), function (req, res) {
       next(error);
     }
   });
-  res.redirect('updateprofile');
+  return res.redirect('updateprofile');
 });
 
 
@@ -414,7 +384,7 @@ router.get('/profilepictureupload', (req, res, next) => {
   res.render('login');
 });
 
-router.post('/profilepictureupload', upload.single('file'), function (req, res) {
+router.post('/profilepictureupload', upload.single('file'), (req, res) => {
   const session = req.session;
   if (req.session.emailid) {
     let photo = ''; /*= req.file.filename;*/
@@ -480,6 +450,5 @@ router.post('/resetpassword', (req, res, next) => {
     res.render('getpassword', { res: results.rows });
   });
 });
-
 
 module.exports = router;

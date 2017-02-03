@@ -1,98 +1,61 @@
 extends ./layouts/main.pug
 
 block content
-  //- p
-  //-   each book in tbl_tweet
-  //-     span= book.t_i
-
-  .navbar-collapse.collapse.navbar-default
-    ul.nav.navbar-nav.navbar-left
-      li#nav-home
-        a(href='/header')
-          i.fa.fa-home.fa-2x
-          span.nav-icon-text Home
-      li#nav-notification
-        a(href='profile')
-          i.fa.fa-pencil-square-o.fa-2x
-          span.sr-only
-          span.nav-icon-text Profile
-      li#nav-meassage
-        a(href='#')
-          i.fa.fa-comment.fa-2x
-          span.nav-icon-text Messages
-
-    .form-group
-      a#btnsignout(href='/logout')
-        span.fa.fa-sign-out.fa-2x
-
-
-    //tweet button with popup window
-    button#myBtn.btn.btn-info(type='button', data-toggle='modal', data-target='#exampleModal') Tweet
-
-    #exampleModal.modal.fade(role='dialog', tabindex="-1",aria-labelledby="exampleModalLabel" aria-hidden="true")
-      .modal-dialog
-        // Modal content
-        .modal-content
-          .modal-header
-            button.close(type='button', data-dismiss='modal') ×
-            h4.modal-title Compose New Tweet
-          .modal-body
-            form(id='tweet', method='post', action='/header')
+  include navbar.pug
+    .container
+      .row
+        .col.s3
+          h5.orange-text#text-darken-2 My Profile
+          each r in username
+            .card-panel.deep-orange#lighten-7.lighten-5
               .form-group
-                label(for='comment') Whats Happening???
-                textarea#comment.form-control(rows='5',name='comment')
-                a(href='/header')
-                button.btn.btn-info(type='submit') Tweet
+                img.img-thumbnails(src='./images/profile/'+ r.image,style = "width: 200px; height:200px")
+                br
+                h4.indigo-text#text-darken-2=r.fullname
+                a#btnprofileedit(href='/updateprofile')
+                  button.waves-effect.waves-light.indigo.btn(type='submit') Update Profile...
+                    span(align='center').fa.fa-pencil-square.fa-2x
+                br
+                br
 
-          .modal-footer
-            button.btn.btn-default(type='button', data-dismiss='modal') Close
 
-    .form-group
-      a#btnprofile(href='/profile')
-        span.fa.fa-user.fa-2x
+        .col.s5
+          h5.orange-text.text-darken-2(align='center') Tweets....
+          each book in res
+            .row
+              .card-panel.deep-orange#lighten-7.lighten-5
+                p
+                  h5.indigo-text#text-darken-2=book.fullname + 'tweeted'
+                  br
+                  br
+                  span= book.t_tweetText
+                  br
+                  br
+                  .form-group
+                  - if(book.t_image){
+                     img.img-thumbnails(src='./images/tweetimage/'+ book.t_image, style = "width: 100%; height:100%")
+                  - }
+                  br
+                  span= book.t_time
+                  br
+                  br
+                  a(href='')#like.span.fa.fa-heart.fa-1x
+                  |  &nbsp
+                  span= book.t_likeCount
 
-  .container
-    .col-md-3
-      h3(align='center', style='font-family:"Palatino Linotype", "Book Antiqua", Palatino, serif;') My Profile
-      each r in username1
-        .well
-          .form-group(align='center')
-            img.img-thumbnail(src='./images/profile/'+ r.image,width ="200px" height="200px")
-            br
-            h3(align='center')= r.fullname
-            br
-            a(href='/updateprofile')
-              span(align='center', style='font-family:"Palatino Linotype", "Book Antiqua", Palatino, serif;').fa.fa-pencil-square-o.fa-2x   Update-Profile
-    .col-md-6
-      h3(align='center', style='font-family:"Palatino Linotype", "Book Antiqua", Palatino, serif;') My Tweets
-      each book in res
-        .well
-          p
-            h3= book.fullname
-            br
-            br
-            span= book.t_tweetText
-            br
-            br
 
-            span= book.t_time
-            br
-            br
-            a(href='#')#like.span.fa.fa-heart.fa-1x
-            |  &nbsp;
-            span= book.t_likeCountx
-
-    .col-md-3
-      h3(align='center', style='font-family:"Palatino Linotype", "Book Antiqua", Palatino, serif;') My Followers
-      each name in follow
-        .well
-          .form-group(align='center')
-            h4= name.fullname
-            form(method='post', action='/unfollow')
-              br
-              img.img-thumbnail(src='./images/profile/'+ name.image,width ="100px" height="100px")
-              br
-              input(type='hidden', name='myfollow', value = name.f_followerid)
-              br
-              button.unfollowbtn.btn.btn-primary(type='submit') Unfollow
-              br
+        .col.s3
+          h5.orange-text#text-darken-2  My Followers
+          each name in follow
+            .card-panel.deep-orange#lighten-7.lighten-5
+              .form-group(align='center')
+                h4= name.fullname
+                form(method='post', action='/unfollow')
+                  img.img-circle(src='./images/profile/'+ name.image,width ="100px" height="100px")
+                  br
+                  input(type='hidden', name='myfollow', value = name.f_followerid)
+                  br
+                  //- button.unfollowbtn.btn.btn-primary(type='submit') Unfollow
+                  button.waves-effect.waves-red.indigo.btn(type='submit',style= "margin-left:50px") Unfollow
+                  br
+                  br
