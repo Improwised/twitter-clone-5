@@ -3,7 +3,7 @@ const path = require('path');
 
 const express = require('express');
 const bodyParser = require('body-parser');
-var expressValidator = require('express-validator');
+const expressValidator = require('express-validator');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const session = require('express-session');
