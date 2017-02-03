@@ -15,14 +15,14 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner:
 --
 
 CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner:
 --
 
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
@@ -146,6 +146,7 @@ COPY tbl_follower (f_id, f_userid, f_followerid) FROM stdin;
 -- Name: tbl_follower_f_id_seq; Type: SEQUENCE SET; Schema: public; Owner: riddhi
 --
 
+
 SELECT pg_catalog.setval('tbl_follower_f_id_seq', 93, true);
 
 
@@ -161,8 +162,8 @@ COPY tbl_register (id, fullname, emailid, password, image) FROM stdin;
 -- Name: tbl_register_id_seq; Type: SEQUENCE SET; Schema: public; Owner: riddhi
 --
 
-SELECT pg_catalog.setval('tbl_register_id_seq', 61, true);
 
+SELECT pg_catalog.setval('tbl_register_id_seq', 61, true);
 
 --
 -- Data for Name: tbl_tweet; Type: TABLE DATA; Schema: public; Owner: riddhi
@@ -176,8 +177,8 @@ COPY tbl_tweet (t_id, "t_tweetText", "t_likeCount", t_time, t_userid, t_image) F
 -- Name: tbl_tweet_t_id_seq; Type: SEQUENCE SET; Schema: public; Owner: riddhi
 --
 
-SELECT pg_catalog.setval('tbl_tweet_t_id_seq', 127, true);
 
+SELECT pg_catalog.setval('tbl_tweet_t_id_seq', 127, true);
 
 --
 -- Name: tbl_follower tbl_follower_pkey; Type: CONSTRAINT; Schema: public; Owner: riddhi

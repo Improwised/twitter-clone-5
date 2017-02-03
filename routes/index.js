@@ -3,6 +3,7 @@ const DB = require('../helpers/db');
 
 const router = express.Router();
 const path = require('path');
+
 const multer = require('multer');
 
 const upload = multer({ dest: path.resolve(__dirname, '../public/images/profile/') });
@@ -27,6 +28,7 @@ router.get('/', (req, res, next) => {
   });
 });
 
+
 router.get('/register', (req, res) => {
   res.render('register');
 });
@@ -41,6 +43,7 @@ router.post('/register', upload.single('file'), (req, res, next) => {
       .set('password', req.body.password)
       .set('image', filename)
       .toParam();
+
   DB.executeQuery(query, (error) => {
     if (error) {
       next(error);
@@ -49,6 +52,7 @@ router.post('/register', upload.single('file'), (req, res, next) => {
     res.redirect('/login');
   });
 });
+
 
 router.get('/login', (req, res) => {
   res.render('login');
@@ -77,6 +81,7 @@ router.post('/login', (req, res, next) => {
     }
   });
 });
+
 
 router.get('/logout', (req, res) => {
   req.session.destroy((err) => {
@@ -111,9 +116,9 @@ router.get('/header', (req, res, next) => {
           .select()
           .field('f_followerid')
           .from('tbl_follower')
-          .where('f_userid = ?', req.session.userid),
+          .where('f_userid = ?', req.session.userid)
         )
-        .or('t.t_userid= ?', req.session.userid),
+        .or('t.t_userid= ?', req.session.userid)
       )
       .order('t_time', false);
     console.log(query.toString());
@@ -195,6 +200,7 @@ router.post('/header', uploadtweet.single('file'), (req, res, next) => {
     res.redirect('/header');
   });
 });
+
 
 router.get('/profile', (req, res, next) => {
   let query;
@@ -357,6 +363,5 @@ router.post('/updateprofile', upload.single('file'), (req, res) => {
   });
   res.redirect('profile');
 });
-
 
 module.exports = router;
