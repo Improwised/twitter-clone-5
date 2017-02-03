@@ -54,16 +54,3 @@ make test
 * Tweets are shown in order of time.
 * Users can also post image with their tweets.
 * Update profile facility available.
-
-## Releasing
-
-Build docker image
-```
-docker build -t hrms .
-```
-
-Push docker image to the local registry
-```
-docker tag hrms hal.improwised.local:5000/hrms
-docker push hal.improwised.local:5000/hrms
-```

@@ -1,7 +1,6 @@
 extends ./layouts/main.pug
 
 block content
-<<<<<<< HEAD
   include navbar.pug
   .container
     .row
@@ -17,105 +16,6 @@ block content
 
       .col.s5
         h5.orange-text#text-darken-2(align='center') Tweets....
-=======
-
-  .navbar-collapse.collapse.navbar-default
-    ul.nav.navbar-nav.navbar-left
-      li#nav-home
-        a(href='/header')
-          i.fa.fa-home.fa-2x
-
-          span.nav-icon-text Home
-      li#nav-notification
-        a(href='#')
-          i.fa.fa-bell.fa-2x
-
-          span.nav-icon-text Notification
-      li#nav-meassage
-        a(href='#')
-          i.fa.fa-comment.fa-2x
-
-          span.nav-icon-text Messages
-
-    .form-group
-      a#btnsignout(href='/logout')
-        span.fa.fa-sign-out.fa-2x
-
-
-    //tweet button with popup window
-    button#myBtn.btn.btn-info(type='button', data-toggle='modal', data-target='#exampleModal') Tweet
-
-    #exampleModal.modal.fade(role='dialog', tabindex="-1",aria-labelledby="exampleModalLabel" aria-hidden="true")
-      .modal-dialog
-        // Modal content
-        .modal-content
-          .modal-header
-            button.close(type='button', data-dismiss='modal') ×
-            h4.modal-title Compose New Tweet
-          .modal-body
-            form(id='tweet', method='post', action='/header', enctype='multipart/form-data')
-              .form-group
-                label(for='comment') Whats Happening???
-                textarea#comment.form-control(rows='5',name='comment', maxlength = '140')
-                input.form-control(type='file', name='file' ,style = "margin : -5px 0px 10px 0px ;color : #00aced;" )
-                a(href='/header')
-                button.btn.btn-info(type='submit') Tweet
-
-          .modal-footer
-            button.btn.btn-default(type='button', data-dismiss='modal') Close
-
-
-    .form-group
-      a#btnprofile(href='/profile')
-        span.fa.fa-user.fa-2x
-
-  .container
-    .row
-
-      .col-md-3
-        h3   Your Profile
-        a(href='/profile')
-          .well
-            p
-              each user in username
-                .form-group
-                  img.img-circle(src='./images/profile/'+ user.image,width ="150px" height="150px")
-                h3= user.fullname
-
-
-        //- expandable list
-        #menu
-        .panel.list-group
-          .form(action='/followername', method='get')
-            a.list-group-item(href='#', data-toggle='collapse', data-target='#sm',   data-parent='#menu')
-              | Followers
-              span.label.label-info 5
-
-            #sm.sublinks.collapse
-              a.list-group-item.small
-                span.glyphicon.glyphicon-chevron-right
-                |  inbox
-              a.list-group-item.small
-                span.glyphicon.glyphicon-chevron-right
-                |  sent
-
-          a.list-group-item(href='#', data-toggle='collapse', data-target='#sl', data-parent='#menu')
-            | Following
-            span.glyphicon.glyphicon-tag.pull-right
-          #sl.sublinks.collapse
-            a.list-group-item.small
-              span.glyphicon.glyphicon-chevron-right
-              |  saved tasks
-            a.list-group-item.small
-              span.glyphicon.glyphicon-chevron-right
-              |  add new task
-
-
-
-
-      .col-md-6
-        h3(align='center')   Tweets....
->>>>>>> 25bd6bf263986b1966dcfd6df96892280028f0a1
         each book in tweets
           - console.log(book);
           .row
@@ -128,18 +28,10 @@ block content
                 span= book.t_tweetText
                 br
                 br
-<<<<<<< HEAD
                 .form-group
                 - if(book.t_image){
                    img.img-thumbnails(src='./images/tweetimage/'+ book.t_image, style = "width: 100%; height:100%")
                 - }
-=======
-                - if(book.t_image){
-                  div(class='form-group')
-                      img.img-circles(src='./images/tweetimage/'+ book.t_image,width ="100px" height="100px")
-                -}
-
->>>>>>> 25bd6bf263986b1966dcfd6df96892280028f0a1
                 span= book.t_time
                 br
                 br
@@ -162,26 +54,3 @@ block content
                   button.waves-effect.waves-light.indigo.btn(type='submit', style="margin-left:60px;") Follow
                   br
                   br
-
-
-
-
-
-<<<<<<< HEAD
-=======
-      .col-md-3
-        h3 Who to Follow???
-        each name in follow
-          .well
-            .form-group(align='center')
-              h4= name.fullname
-              form(method='post', action='/follow')
-                .form-group
-                  img.img-circle(src='./images/profile/'+ name.image,width ="100px" height="100px")
-
-                  input(type='hidden', name='myfollow', value = name.id)
-                  br
-                  button.followbtn.btn.btn-primary(type='submit') Follow
-                  br
-
->>>>>>> 25bd6bf263986b1966dcfd6df96892280028f0a1

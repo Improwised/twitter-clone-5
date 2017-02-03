@@ -23,7 +23,6 @@ router.get('/', (req, res, next) => {
     }
     res.render('index', {
        // title: `Time from the database is ${results.rows[0].now}`,
-
     });
   });
 });
