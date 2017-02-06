@@ -1,7 +1,6 @@
 const should = require('should');
-
-let request = require('supertest');
 "use strict";
+let request = require('supertest');
 // const server = require('../app');
 request = request('http://localhost:3000');
 
