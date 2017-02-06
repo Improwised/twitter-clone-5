@@ -222,9 +222,8 @@ router.post('/header', uploadtweet.single('file'), (req, res, next) => {
   });
 });
 
-
+var query;
 router.get('/profile', (req, res, next) => {
-  let query;
   const session = req.session;
   if (req.session.emailid) {
     query = DB.builder()
