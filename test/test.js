@@ -179,12 +179,12 @@ describe('POST /login', function () {
     request(server)
       .post('/login')
       .send(user)
-      .expect(302)
+      .expect(200)
       .end(function (err, res) {
         if (err) {
           done(err);
         } else {
-          res.status.should.be.equal(302);
+          res.status.should.be.equal(200);
           done();
         }
       });

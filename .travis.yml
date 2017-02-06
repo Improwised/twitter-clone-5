@@ -2,11 +2,12 @@ services:
 - postgresql
 
 before_script:
-- psql -c 'create database testdb;' -U Vivek -w
-- psql -f 'script.sql'services:
-- postgresql
+- export PORT=3000
+- npm start & sleep 3
+- psql -c 'create database travis;' -U postgres -w
+- psql -c 'create database testdb;' -U postgres -w
+- psql -f 'testscript.sql'
 
-before_script:
-- psql -c 'create database testdb;' -U Vivek -w
-- psql -f 'script.sql'
-
+language: node_js
+node_js:
+ - "6"

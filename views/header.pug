@@ -4,7 +4,7 @@ block content
   .container
     .row
       .col.s3
-        h5.orange-text#text-darken-2 Your Profile
+        h5(align='center').orange-text#text-darken-2 Your Profile
         .card-panel.deep-orange#lighten-7.lighten-5
           a(href='/profile')
             each user in username
@@ -36,7 +36,7 @@ block content
                 |  &nbsp
                 span= book.t_likeCount
       .col.s3
-        h5.orange-text.text-darken-2 Who to Follow???
+        h5(align='center').orange-text.text-darken-2 Whom to Follow???
         each name in follow
           .card-panel.deep-orange#lighten-7.lighten-5
             .form-group(align='center')

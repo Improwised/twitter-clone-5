@@ -7,17 +7,17 @@ block content
         h3.indigo-text.text-darken-2 Join Today
         br
         br
-        input.form-control(type='text', name='fullname', placeholder='Enter your name', autofocus='',id='fullname')
+        input.form-control(type='text', name='fullname', placeholder='Enter your name', autofocus='', id='fullname', autocomplete='off')
         -if(errors)
           each error in errors
             -if(error.param == 'fullname')
               div= error.msg
-        input.form-control(type='email', name='emailid', placeholder='Email-Id', id="emailid")
+        input.form-control(type='email', name='emailid', placeholder='Email-Id', id="emailid", autocomplete='off')
         -if(errors)
           each error in errors
             -if(error.param == 'emailid')
               div= error.msg
-        input.form-control(type='password', name='password', placeholder='password', id="password")
+        input.form-control(type='password', name='password', placeholder='password', id="password", autocomplete='off')
         -if(errors)
           each error in errors
             -if(error.param == 'password')
@@ -41,7 +41,7 @@ block content
           option(value='bf') Your Best Friend
         br
         br
-        input.form-control(type='text', name='answer', placeholder='Your Answer', required='', autofocus='',id = "answer")
+        input.form-control(type='text', name='answer', placeholder='Your Answer', required='', autofocus='',id = "answer", autocomplete='off')
         br
         button.waves-effect.waves-light.indigo.btn.btn-block(type='submit') SignUp
         br

@@ -4,14 +4,14 @@ block content
   include navbar.pug
     .container
       .row
-        .col.s3
-          h5.orange-text#text-darken-2 My Profile
+        .col.s3(align='center')
+          h5(align='center').orange-text#text-darken-2 My Profile
           each r in username
             .card-panel.deep-orange#lighten-7.lighten-5
               .form-group
                 img.img-thumbnails(src='./images/profile/'+ r.image,style = "width: 200px; height:200px")
                 br
-                h4.indigo-text#text-darken-2=r.fullname
+                h4(align='center').indigo-text#text-darken-2=r.fullname
                 a#btnprofileedit(href='/updateprofile')
                   button.waves-effect.waves-light.indigo.btn(type='submit') Update Profile...
                     span(align='center').fa.fa-pencil-square.fa-2x
@@ -25,7 +25,7 @@ block content
             .row
               .card-panel.deep-orange#lighten-7.lighten-5
                 p
-                  h5.indigo-text#text-darken-2=book.fullname + 'tweeted'
+                  h5.indigo-text#text-darken-2=book.fullname + '...Tweeted,'
                   br
                   br
                   span= book.t_tweetText

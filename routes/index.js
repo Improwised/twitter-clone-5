@@ -138,6 +138,7 @@ router.get('/header', (req, res, next) => {
       .field('fullname')
       .field('t_tweetText')
       .field('image')
+      .field('t_likeCount')
       .field('t.*')
       .from('tbl_register', 'r')
       .join('tbl_tweet', 't', 't.t_userid = r.id')
@@ -209,7 +210,6 @@ router.post('/header', uploadtweet.single('file'), (req, res, next) => {
     .insert()
     .into('tbl_tweet')
     .set('t_tweetText', req.body.comment)
-    .set('t_likeCount', '0')
     .set('t_time', 'now()')
     .set('t_image', filename)
     .set('t_userid', req.session.userid)
@@ -450,5 +450,6 @@ router.post('/resetpassword', (req, res, next) => {
     res.render('getpassword', { res: results.rows });
   });
 });
+
 
 module.exports = router;
