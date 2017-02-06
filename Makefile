@@ -20,3 +20,4 @@ test:
 	export PGDB_DB=twitter
 	export PGDB_DB=testdb
 	mocha
+

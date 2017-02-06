@@ -347,7 +347,6 @@ router.get('/updateprofile', (req, res, next) => {
   });
 });
 
-
 router.post('/updateprofile', upload.single('file'), (req, res) => {
   const session = req.session;
   const query = DB.builder()
@@ -363,7 +362,6 @@ router.post('/updateprofile', upload.single('file'), (req, res) => {
       next(error);
     }
   });
-
   return res.redirect('updateprofile');
 });
 
@@ -385,7 +383,6 @@ router.get('/profilepictureupload', (req, res, next) => {
     });
   }
   res.render('login');
-
 });
 
 router.post('/profilepictureupload', upload.single('file'), (req, res) => {

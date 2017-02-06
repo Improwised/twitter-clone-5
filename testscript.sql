@@ -15,14 +15,14 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner:
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
 --
 
 CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner:
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
 
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
@@ -62,23 +62,6 @@ CREATE TABLE tbl_follower (
 ALTER TABLE tbl_follower OWNER TO "Vivek";
 
 --
--- Name: tbl_register; Type: TABLE; Schema: public; Owner: Vivek
---
-
-CREATE TABLE tbl_register (
-    id integer NOT NULL,
-    fullname text,
-    emailid text,
-    password text,
-    image text,
-    securityquestion text,
-    securityanswer text
-);
-
-
-ALTER TABLE tbl_register OWNER TO "Vivek";
-
---
 -- Name: tbl_register_id_seq; Type: SEQUENCE; Schema: public; Owner: Vivek
 --
 
@@ -93,10 +76,21 @@ CREATE SEQUENCE tbl_register_id_seq
 ALTER TABLE tbl_register_id_seq OWNER TO "Vivek";
 
 --
--- Name: tbl_register_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Vivek
+-- Name: tbl_register; Type: TABLE; Schema: public; Owner: Vivek
 --
 
-ALTER SEQUENCE tbl_register_id_seq OWNED BY tbl_register.id;
+CREATE TABLE tbl_register (
+    id integer DEFAULT nextval('tbl_register_id_seq'::regclass) NOT NULL,
+    fullname text,
+    emailid text,
+    password text,
+    image text,
+    securityquestion text,
+    securityanswer text
+);
+
+
+ALTER TABLE tbl_register OWNER TO "Vivek";
 
 --
 -- Name: tbl_tweet_t_id_seq; Type: SEQUENCE; Schema: public; Owner: Vivek
@@ -119,21 +113,14 @@ ALTER TABLE tbl_tweet_t_id_seq OWNER TO "Vivek";
 CREATE TABLE tbl_tweet (
     t_id integer DEFAULT nextval('tbl_tweet_t_id_seq'::regclass) NOT NULL,
     "t_tweetText" text,
-    "t_likeCount" integer,
     t_time timestamp without time zone DEFAULT '2017-01-19 13:01:27.066544'::timestamp without time zone,
     t_userid integer,
+    "t_likeCount" integer,
     t_image text
 );
 
 
 ALTER TABLE tbl_tweet OWNER TO "Vivek";
-
---
--- Name: tbl_register id; Type: DEFAULT; Schema: public; Owner: Vivek
---
-
-ALTER TABLE ONLY tbl_register ALTER COLUMN id SET DEFAULT nextval('tbl_register_id_seq'::regclass);
-
 
 --
 -- Data for Name: tbl_follower; Type: TABLE DATA; Schema: public; Owner: Vivek
@@ -147,7 +134,7 @@ COPY tbl_follower (f_id, f_userid, f_followerid) FROM stdin;
 -- Name: tbl_follower_f_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Vivek
 --
 
-SELECT pg_catalog.setval('tbl_follower_f_id_seq', 53, true);
+SELECT pg_catalog.setval('tbl_follower_f_id_seq', 21, true);
 
 
 --
@@ -162,15 +149,14 @@ COPY tbl_register (id, fullname, emailid, password, image, securityquestion, sec
 -- Name: tbl_register_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Vivek
 --
 
-
-SELECT pg_catalog.setval('tbl_register_id_seq', 113, true);
+SELECT pg_catalog.setval('tbl_register_id_seq', 16, true);
 
 
 --
 -- Data for Name: tbl_tweet; Type: TABLE DATA; Schema: public; Owner: Vivek
 --
 
-COPY tbl_tweet (t_id, "t_tweetText", "t_likeCount", t_time, t_userid, t_image) FROM stdin;
+COPY tbl_tweet (t_id, "t_tweetText", t_time, t_userid, "t_likeCount", t_image) FROM stdin;
 \.
 
 
@@ -178,8 +164,16 @@ COPY tbl_tweet (t_id, "t_tweetText", "t_likeCount", t_time, t_userid, t_image) F
 -- Name: tbl_tweet_t_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Vivek
 --
 
+SELECT pg_catalog.setval('tbl_tweet_t_id_seq', 131, true);
 
-SELECT pg_catalog.setval('tbl_tweet_t_id_seq', 117, true);
+
+--
+-- Name: tbl_follower tbl_follower_pkey; Type: CONSTRAINT; Schema: public; Owner: Vivek
+--
+
+ALTER TABLE ONLY tbl_follower
+    ADD CONSTRAINT tbl_follower_pkey PRIMARY KEY (f_id);
+
 
 --
 -- Name: tbl_register tbl_register_pkey; Type: CONSTRAINT; Schema: public; Owner: Vivek
@@ -190,19 +184,11 @@ ALTER TABLE ONLY tbl_register
 
 
 --
--- Name: tbl_tweet tbl_tweet_pkey; Type: CONSTRAINT; Schema: public; Owner: riddhi
+-- Name: tbl_tweet tbl_tweet_pkey; Type: CONSTRAINT; Schema: public; Owner: Vivek
 --
 
 ALTER TABLE ONLY tbl_tweet
     ADD CONSTRAINT tbl_tweet_pkey PRIMARY KEY (t_id);
-
-
---
--- Name: tbl_tweet tbl_tweet_t_userid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: riddhi
---
-
-ALTER TABLE ONLY tbl_tweet
-    ADD CONSTRAINT tbl_tweet_t_userid_fkey FOREIGN KEY (t_userid) REFERENCES tbl_register(id);
 
 
 --
