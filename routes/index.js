@@ -54,7 +54,7 @@ router.post('/register', upload.single('file'), (req, res, next) => {
       errors,
     });
   } else {
-    let photo = '';
+    var photo = '';
     if (req.file) {
       photo = req.file.filename;
     } else {
