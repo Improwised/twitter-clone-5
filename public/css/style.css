@@ -1,0 +1,112 @@
+
+@import url(http://fonts.googleapis.com/css?family=Sniglet|Raleway:900);
+
+/*style for searchbar */
+.input-group{
+  vertical-align: center;
+}
+
+/*style for button */
+.btn{
+  color: white;
+  float: left;
+}
+
+/*style for popup*/
+.modal{
+  position: fixed;
+  z-index: 1;
+  padding-top: 10px;
+  left: 0;
+  top: 0;
+  width: 40%;
+  height: 47%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+}
+
+#btnprofile{
+  display: block;
+  float: right;
+  margin-right: 20px;
+  color: #00a3cc;
+}
+
+/*css for profile page */
+
+a:hover#like {
+  text-decoration: none;
+  color:#ff0000;
+}
+
+.container{
+  margin-top: 30px;
+}
+
+/*cover page*/
+.start-temp{
+  text-align:center;
+  height: 760px;
+  font-size:20px;
+  padding: 40px 50px;
+  background-image: url('images/twitter.jpg');
+}
+.paragraph{
+  text-align: center;
+  margin-top: 170px;
+}
+#title{
+  text-align: center;
+  margin-top: 70px;
+}
+.btn1{
+  vertical-align: center;
+  margin-top: 70px;
+  margin-right:-170px;
+  margin-left: 350px;
+  font-size: 20px;
+}
+
+
+/*css for login and sign up forn */
+
+body,html {
+  background: white !important;
+  font-family: GillSans;
+}
+
+.wrapper {
+  margin-top: 80px;
+  margin-bottom: 180px;
+}
+
+.form-login {
+  max-width: 380px;
+  padding: 15px 35px 45px;
+  margin: 0 auto;
+  background-color: #fff;
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+.form-control {
+  position: static;
+  font-size: 16px;
+  height: auto;
+  padding: 30px;
+  box-sizing:(border-box);
+
+  &:focus {
+    z-index: 2;
+  }
+}
+
+.form-signup {
+  max-width: 380px;
+  padding: 15px 35px 45px;
+  margin: 0 auto;
+  background-color: #fff;
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+

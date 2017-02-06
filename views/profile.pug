@@ -1,0 +1,61 @@
+extends ./layouts/main.pug
+
+block content
+  include navbar.pug
+    .container
+      .row
+        .col.s3
+          h5.orange-text#text-darken-2 My Profile
+          each r in username
+            .card-panel.deep-orange#lighten-7.lighten-5
+              .form-group
+                img.img-thumbnails(src='./images/profile/'+ r.image,style = "width: 200px; height:200px")
+                br
+                h4.indigo-text#text-darken-2=r.fullname
+                a#btnprofileedit(href='/updateprofile')
+                  button.waves-effect.waves-light.indigo.btn(type='submit') Update Profile...
+                    span(align='center').fa.fa-pencil-square.fa-2x
+                br
+                br
+
+
+        .col.s5
+          h5.orange-text.text-darken-2(align='center') Tweets....
+          each book in res
+            .row
+              .card-panel.deep-orange#lighten-7.lighten-5
+                p
+                  h5.indigo-text#text-darken-2=book.fullname + 'tweeted'
+                  br
+                  br
+                  span= book.t_tweetText
+                  br
+                  br
+                  .form-group
+                  - if(book.t_image){
+                     img.img-thumbnails(src='./images/tweetimage/'+ book.t_image, style = "width: 100%; height:100%")
+                  - }
+                  br
+                  span= book.t_time
+                  br
+                  br
+                  a(href='')#like.span.fa.fa-heart.fa-1x
+                  |  &nbsp
+                  span= book.t_likeCount
+
+
+        .col.s3
+          h5.orange-text#text-darken-2  My Followers
+          each name in follow
+            .card-panel.deep-orange#lighten-7.lighten-5
+              .form-group(align='center')
+                h4= name.fullname
+                form(method='post', action='/unfollow')
+                  img.img-circle(src='./images/profile/'+ name.image,width ="100px" height="100px")
+                  br
+                  input(type='hidden', name='myfollow', value = name.f_followerid)
+                  br
+                  //- button.unfollowbtn.btn.btn-primary(type='submit') Unfollow
+                  button.waves-effect.waves-red.indigo.btn(type='submit',style= "margin-left:50px") Unfollow
+                  br
+                  br

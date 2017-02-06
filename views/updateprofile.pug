@@ -1,0 +1,52 @@
+extends ./layouts/main.pug
+
+block content
+  include navbar.pug
+  .container
+    .row
+      .col.s8
+        form(action='/updateprofile' method='POST', enctype='multipart/form-data')
+          .form-group
+            each r in res
+              h3.indigo-text.text-darken-2(align='center') Update Your Profile
+              br
+              h5.indigo-text#text-darken-2 Name
+              input.form-control(type="text", name="fullname" id="fullname" value=r.fullname)
+
+              h5.indigo-text#text-darken-2 Email-Id
+              input.form-control(type="email", name="emailid" id="emailid" value=r.emailid)
+
+              h5.indigo-text#text-darken-2 Password
+              input.form-control(type="text", name="password" id="password" value=r.password, autocomplete='off')
+
+              input.waves-effect.waves-light.indigo.btn(type='submit',name="Submit")
+
+      .col.s3
+        form(method='post', enctype='multipart/form-data', action='/profilepictureupload')
+         .form-group
+            each r in res
+              h3.indigo-text.text-darken-2(align='center') Profile Picture
+              br
+              br
+              br
+              img.img-circle(src='./images/profile/'+ r.image,width ="200px" height="200px")
+              br
+              form(method='post', enctype='multipart/form-data', action='/profilepictureupload')
+                br
+                //- input.form-control(type='file', name='file' ,style = "margin : -5px 0px 10px 0px ;color : #00aced;" ,required )
+                .file-field.input-field
+                  .btn.indigo
+                    span Browse
+                    input(type='file', name='file', required)
+                  .file-path-wrapper
+                    input.file-path.validate(type='text', placeholder='Upload file')
+                  input.waves-effect.waves-light.indigo.btn(type='submit',name="Submit")
+
+
+    .row
+      .col-md-3
+        a.btn.btn-danger(href='/deleteaccount')
+          i.fa.fa-trash-o.fa-lg
+          |  Delete Your Account
+
+

@@ -1,0 +1,68 @@
+extends ./layouts/main.pug
+
+block content
+  nav
+    .nav-wrapper
+        ul#nav-mobile.left.hide-on-med-and-down
+          li
+            a(href='/header')
+              i.fa.fa-home.fa-2x
+          li
+            a(href='#')
+              i.fa.fa-bell.fa-2x
+          li
+            //button.waves-effect.waves-light.indigo.btn(type='button', data-toggle='modal', data-target='#exampleModal') Tweet
+            a.waves-effect.waves-light.indigo.btn(href='#exampleModal',type='button',style="margin-top:10px;") Tweet
+
+            #exampleModal.modal(role='dialog',aria-labelledby="exampleModalLabel", aria-hidden="true")
+              .modal-dialog
+                // Modal content
+                .modal-content
+                  .modal-body
+                    form(id='tweet', method='post', action='/header', enctype='multipart/form-data')
+                      .form-group
+                        h5.indigo-text#text-darken-2(for="comment") Whats Happening???
+                        textarea#comment.form-control(rows='1',name='comment', maxlength = '140', style="color:black")
+                        //- input.form-control(type='file', name='file' ,style = "margin : -5px 0px 10px 0px ;color : #00aced;")
+                        .file-field.input-field
+                          .btn.indigo
+                            span Browse
+                            input(type='file', name='file')
+                          .file-path-wrapper
+                            input.file-path.validate(type='text', placeholder='Upload file').indigo.lighten-3
+                        a(href='/header')
+                        button.waves-effect.waves-light.indigo.btn(type='submit') Tweet
+
+                  .modal-footer
+                    button.waves-effect.waves-light.btn.grey.darken-1.modal-action.modal-close(type='button') Close
+
+        ul#nav-mobile.right.hide-on-med-and-down
+          li
+            a(href='/profile')
+              i.fa.fa-user.fa-2x
+          li
+            a(href='/logout')
+              i.fa.fa-sign-out.fa-2x
+
+  script.
+    $(document).ready(function(){
+      // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+      $('.modal').modal();
+    });
+    $('#exampleModal').modal('open');
+    $('#exampleModal').modal('close');
+    $('.modal').modal({
+      dismissible: true, // Modal can be dismissed by clicking outside of the modal
+      opacity: .5, // Opacity of modal background
+      inDuration: 300, // Transition in duration
+      outDuration: 200, // Transition out duration
+      startingTop: '4%', // Starting top style attribute
+      endingTop: '10%', // Ending top style attribute
+      ready: function(modal, trigger) { // Callback for Modal open. Modal and trigger parameters available.
+        alert("Ready");
+        console.log(modal, trigger);
+      },
+      complete: function() { alert('Closed'); } // Callback for Modal close
+      }
+    );
+

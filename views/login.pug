@@ -1,0 +1,29 @@
+extends ./layouts/main.pug
+
+block content
+  .container
+    .wrapper
+        form.form-login(action='/login' method='POST')
+          h3.indigo-text.text-darken-2 Please Login
+          br
+          br
+          input.form-control(type='text', name='emailid', placeholder='Email Address', required='', autofocus='',id = "emailid")
+          -if(errors)
+            each error in errors
+              -if(error.param == 'emailid')
+                div= error.msg
+          input.form-control(type='password', name='password', placeholder='Password', required='', id= 'password')
+          -if(errors)
+            each error in errors
+              -if(error.param == 'password')
+                div= error.msg
+          button.waves-effect.waves-light.indigo.btn.btn-block(type='submit') Login
+          br
+          br
+          br
+          label Don't Have an Account?
+          a(href='register', style = "margin : 5px;") Create Account
+          br
+          label Forgot Password?
+          a(href='resetpassword', style = "margin : 5px;") Click Here!
+          br

@@ -1,0 +1,52 @@
+extends ./layouts/main.pug
+
+block content
+  .container
+    .wrapper
+      form.form-signup(action='/register' method='POST', enctype='multipart/form-data')
+        h3.indigo-text.text-darken-2 Join Today
+        br
+        br
+        input.form-control(type='text', name='fullname', placeholder='Enter your name', autofocus='',id='fullname')
+        -if(errors)
+          each error in errors
+            -if(error.param == 'fullname')
+              div= error.msg
+        input.form-control(type='email', name='emailid', placeholder='Email-Id', id="emailid")
+        -if(errors)
+          each error in errors
+            -if(error.param == 'emailid')
+              div= error.msg
+        input.form-control(type='password', name='password', placeholder='password', id="password")
+        -if(errors)
+          each error in errors
+            -if(error.param == 'password')
+              div= error.msg
+        label Select Profile Picture :
+        br
+        //- input.form-control(type='file', name='file' ,style = "margin : -5px 0px 10px 0px ;color : #00aced;" ,required )
+        .file-field.input-field
+          .btn.indigo
+            span Browse
+            input(type='file', name='file', required)
+          .file-path-wrapper
+            input.file-path.validate(type='text', placeholder='Upload file')
+        h6.indigo-text.text-darken-2 Select Your Security Question :
+        br
+        select.dropdown-button.btn.indigo(name='question')
+          option(value='bof') Birthplace of your father
+          option(value='bom') Birthplace of your Mother
+          option(value='fcc') Your Favourite Cartoon Character
+          option(value='fmn') Your First Mobile-Number
+          option(value='bf') Your Best Friend
+        br
+        br
+        input.form-control(type='text', name='answer', placeholder='Your Answer', required='', autofocus='',id = "answer")
+        br
+        button.waves-effect.waves-light.indigo.btn.btn-block(type='submit') SignUp
+        br
+        br
+
+        script.
+          var question = document.getElementById("question");
+          var returnvalue = question.options[question.selectedIndex].value;

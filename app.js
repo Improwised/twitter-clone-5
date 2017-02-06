@@ -3,8 +3,11 @@ const path = require('path');
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const expressValidator = require('express-validator');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const session = require('express-session');
+const expressvalidator = require('express-validator');
 
 // Load dotenv config
 if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
@@ -28,12 +31,22 @@ app.set('view engine', 'pug');
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
+app.use(expressValidator());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(expressvalidator());
+app.use(session({
+  secret: 'password',
+  resave: false,
+  saveUninitialized: true,
+}));
 
 app.use('/', routes);
-
+// app.use('/header', routes);
+// app.use('/follow', routes);
+// app.use('/unfollow', routes);
+// app.use('/profilepictureupload', routes);
 // Catch 404 errors
 // Forwarded to the error handlers
 app.use((req, res, next) => {

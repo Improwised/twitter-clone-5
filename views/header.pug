@@ -1,0 +1,52 @@
+extends ./layouts/main.pug
+block content
+  include navbar.pug
+  .container
+    .row
+      .col.s3
+        h5.orange-text#text-darken-2 Your Profile
+        .card-panel.deep-orange#lighten-7.lighten-5
+          a(href='/profile')
+            each user in username
+              .form-group
+                img.img-thumbnails(src='./images/profile/'+ user.image, style = "width: 200px; height:200px;")
+                br
+                h4.indigo-text#text-darken-2=user.fullname
+      .col.s5
+        h5.orange-text#text-darken-2(align='center') Tweets....
+        each book in tweets
+          - console.log(book);
+          .row
+            .card-panel.deep-orange#lighten-7.lighten-5
+              p
+                h5.indigo-text#text-darken-2=book.fullname + 'tweeted'
+                br
+                br
+                span= book.t_tweetText
+                br
+                br
+                .form-group
+                - if(book.t_image){
+                   img.img-thumbnails(src='./images/tweetimage/'+ book.t_image, style = "width: 100%; height:100%")
+                - }
+                span= book.t_time
+                br
+                br
+                a(href='')#like.span.fa.fa-heart.fa-1x
+                |  &nbsp
+                span= book.t_likeCount
+      .col.s3
+        h5.orange-text.text-darken-2 Who to Follow???
+        each name in follow
+          .card-panel.deep-orange#lighten-7.lighten-5
+            .form-group(align='center')
+              h5.indigo-text#text-darken-2= name.fullname
+              form(method='post', action='/follow')
+                .form-group
+                  img.img-circle(src='./images/profile/'+ name.image,width ="100px" height="100px")
+                  br
+                  input(type='hidden', name='myfollow', value = name.id)
+                  br
+                  button.waves-effect.waves-light.indigo.btn(type='submit', style="margin-left:60px;") Follow
+                  br
+                  br

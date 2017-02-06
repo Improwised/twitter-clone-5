@@ -1,4 +1,14 @@
 extends ./layouts/main.pug
 
 block content
-  h1= title
+  .container
+    div.start-temp
+      h1#title.indigo-text.text-darken-2 Welcome to Twitter!!!
+      div.paragraph
+        h4 Be connected with your loved ones...
+        h4 Social Media
+        h4 Online Platform
+      form(action='/login')
+        button.waves-effect.waves-light.indigo.btn.btn1.btn-block Login
+      form(action='/register')
+        button.waves-effect.waves-light.indigo.btn.btn1.btn-block SignUp
