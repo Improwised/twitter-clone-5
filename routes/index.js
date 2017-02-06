@@ -362,7 +362,7 @@ router.post('/updateprofile', upload.single('file'), (req, res) => {
       next(error);
     }
   });
-  return res.redirect('updateprofile');
+  return res.redirect('profile');
 });
 
 
