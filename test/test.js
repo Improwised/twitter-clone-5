@@ -2,12 +2,13 @@ const should = require('should');
 
 const request = require('supertest');
 
-const server = require('../app');
+// const server = require('../app');
+const request = request('http://localhost:3000');
 
 describe('index', function () {
   describe('GET /', function () {
     it('should return a homepage', function (done) {
-      request(server)
+      request
         .get('/')
         .expect('Content-type', 'text/html; charset=utf-8')
         .expect(200)
@@ -20,7 +21,7 @@ describe('index', function () {
 });
 describe('GET /register', function () {
   it('should return registration page', function (done) {
-    request(server)
+    request
       .get('/register')
       .expect('Content-type', 'text/html; charset=utf-8')
       .expect(200)
@@ -32,7 +33,7 @@ describe('GET /register', function () {
 });
 describe('GET /login', function () {
   it('should return login page', function (done) {
-    request(server)
+    request
       .get('/login')
       .expect('Content-type', 'text/html; charset=utf-8')
       .expect(200)
@@ -44,7 +45,7 @@ describe('GET /login', function () {
 });
 describe('GET /logout', function () {
   it('should return login page', function (done) {
-    request(server)
+    request
       .get('/logout')
       .expect('Content-type', 'text/html; charset=utf-8')
       .expect(200)
@@ -56,7 +57,7 @@ describe('GET /logout', function () {
 });
 describe('GET /index', function () {
   it('should return index page', function (done) {
-    request(server)
+    request
       .get('/index')
       .expect('Content-type', 'text/html; charset=utf-8')
       .expect(200)
@@ -68,7 +69,7 @@ describe('GET /index', function () {
 });
 describe('GET /header', function () {
   it('should return header', function (done) {
-    request(server)
+    request
       .get('/header')
       .expect('Content-type', 'text/html; charset=utf-8')
       .expect(200)
@@ -80,7 +81,7 @@ describe('GET /header', function () {
 });
 describe('GET /profile', function () {
   it('should return profile page', function (done) {
-    request(server)
+    request
       .get('/profile')
       .expect('Content-type', 'text/html; charset=utf-8')
       .expect(200)
@@ -92,7 +93,7 @@ describe('GET /profile', function () {
 });
 describe('GET /updateprofile', function () {
   it('should return update profile page', function (done) {
-    request(server)
+    request
       .get('/updateprofile')
       .expect('Content-type', 'text/html; charset=utf-8')
       .expect(200)
@@ -106,7 +107,7 @@ describe('GET /deleteaccount', function () {
   it('it should response login page', function (done) {
     this.timeout(500);
     setTimeout(done, 300);
-    request(server)
+    request
     .get('/deleteaccount')
     .expect(304)
     .end(function (err, res) {
@@ -121,7 +122,7 @@ describe('GET /deleteaccount', function () {
 });
 describe('GET /resetpassword', function () {
   it('should return get password page', function (done) {
-    request(server)
+    request
     .get('/resetpassword')
     .expect('Content-type', 'text/html; charset=utf-8')
     .expect(200)
@@ -133,7 +134,7 @@ describe('GET /resetpassword', function () {
 });
 describe('GET /profilepictureupload', function () {
   it('it should response updateprofile page', function (done) {
-    request(server)
+    request
       .get('/updateprofile')
       .expect(200)
       .end(function (err, res) {
@@ -156,7 +157,7 @@ describe('POST /register', function () {
       password: 'vivek',
       image: 'twitter.jpg',
     };
-    request(server)
+    request
       .post('/register')
       .send(user)
       .expect(200)
@@ -176,7 +177,7 @@ describe('POST /login', function () {
       emailid: 'vivek@improwised.com',
       password: 'vivek',
     };
-    request(server)
+    request
       .post('/login')
       .send(user)
       .expect(302)
@@ -198,7 +199,7 @@ describe('POST /header', function () {
       t_userid: '1',
       t_likeCount: '',
     };
-    request(server)
+    request
       .post('/header')
       .send(user)
       .expect(302)
@@ -220,7 +221,7 @@ describe('POST /profile', function () {
       t_userid: '1',
       t_likeCount: '',
     };
-    request(server)
+    request
       .post('/profile')
       .send(user)
       .expect(302)
@@ -241,7 +242,7 @@ describe('POST /follow', function () {
       f_userid: '1',
       f_followerid: '1',
     };
-    request(server)
+    request
       .post('/follow')
       .send(user)
       .expect(302)
@@ -260,7 +261,7 @@ describe('POST /unfollow', function () {
   it('it should response login page', function (done) {
     this.timeout(500);
     setTimeout(done, 300);
-    request(server)
+    request
     .post('/unfollow')
     .expect(302)
     .end(function (err, res) {
@@ -281,7 +282,7 @@ describe('POST /updateprofile', function () {
       emailid: 'vivek@vivek.com',
       password: 'vivek',
     };
-    request(server)
+    request
       .post('/updateprofile')
       .send(user)
       .expect(302)
@@ -301,7 +302,7 @@ describe('POST /profilepictureupload', function () {
     const user = {
       image: 'twitter.jpg',
     };
-    request(server)
+    request
       .post('/profilepictureupload')
       .send(user)
       .expect(200)
@@ -323,7 +324,7 @@ describe('POST /resetpassword', function () {
       securityquestion: 'bof',
       securityanswer: 'jamnagar',
     };
-    request(server)
+    request
       .post('/resetpassword')
       .send(user)
       .expect(200)
