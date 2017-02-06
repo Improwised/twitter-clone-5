@@ -1,4 +1,4 @@
-"use strict";
+
 const should = require('should');
 let request = require('supertest');
 // const server = require('../app');
