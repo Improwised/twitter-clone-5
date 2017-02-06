@@ -3,7 +3,7 @@ const should = require('should');
 const request = require('supertest');
 
 // const server = require('../app');
-const request = request('http://localhost:3000');
+request = request('http://localhost:3000');
 
 describe('index', function () {
   describe('GET /', function () {
