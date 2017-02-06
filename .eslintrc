@@ -9,9 +9,12 @@ extends:
 
 globals:
   log: true
+  it: true
+  describe: true
 
 rules:
   vars-on-top: 0
+  no-unused-vars: [1, { "varsIgnorePattern": "^should$" }]
 
   # Warnings
   max-len: [1]

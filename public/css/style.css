@@ -40,6 +40,10 @@ a:hover#like {
   color:#ff0000;
 }
 
+.container{
+  margin-top: 30px;
+}
+
 /*cover page*/
 .start-temp{
   text-align:center;
@@ -106,6 +110,3 @@ body,html {
 }
 
 
-/*#btnprofileedit {
-  align-items: right;
-}*/

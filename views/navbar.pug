@@ -23,7 +23,13 @@ block content
                       .form-group
                         h5.indigo-text#text-darken-2(for="comment") Whats Happening???
                         textarea#comment.form-control(rows='1',name='comment', maxlength = '140', style="color:black")
-                        input.form-control(type='file', name='file' ,style = "margin : -5px 0px 10px 0px ;color : #00aced;")
+                        //- input.form-control(type='file', name='file' ,style = "margin : -5px 0px 10px 0px ;color : #00aced;")
+                        .file-field.input-field
+                          .btn.indigo
+                            span Browse
+                            input(type='file', name='file')
+                          .file-path-wrapper
+                            input.file-path.validate(type='text', placeholder='Upload file').indigo.lighten-3
                         a(href='/header')
                         button.waves-effect.waves-light.indigo.btn(type='submit') Tweet
 
