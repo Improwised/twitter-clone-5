@@ -130,7 +130,7 @@ router.get('/index', (req, res) => {
 });
 
 router.get('/header', (req, res, next) => {
-  let query;
+  var query;
   const session = req.session;
   if (req.session.emailid) {
     query = DB.builder()
@@ -198,8 +198,8 @@ router.get('/header', (req, res, next) => {
   }
 });
 
+var filename = '';
 router.post('/header', uploadtweet.single('file'), (req, res, next) => {
-  let filename = '';
   if (req.file) {
     filename = req.file.filename;
   } else {
