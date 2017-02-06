@@ -1,0 +1,12 @@
+services:
+- postgresql
+
+before_script:
+- psql -c 'create database testdb;' -U Vivek -w
+- psql -f 'script.sql'services:
+- postgresql
+
+before_script:
+- psql -c 'create database testdb;' -U Vivek -w
+- psql -f 'script.sql'
+
