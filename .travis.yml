@@ -3,7 +3,7 @@ services:
 - postgresql
 
 before_script:
-- export PORT = 3000
+- export PORT=3000
 - npm start & sleep 3
 - psql -c 'create database travis;' -U postgres -w
 - psql -c 'create database testdb;' -U postgres -w
