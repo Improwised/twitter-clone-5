@@ -48,7 +48,7 @@ router.post('/register', upload.single('file'), (req, res, next) => {
       next(error);
       return;
     }
-    res.redirect('/login');
+    res.redirect('login');
   });
 });
 
@@ -343,7 +343,8 @@ router.get('/updateprofile', (req, res, next) => {
   });
 });
 
-router.post('/updateprofile', upload.single('file'), (req, res) => {
+
+router.post('/updateprofile', upload.single('file'), function (req, res, next) {
   const session = req.session;
   const filename = req.file.filename;
   const query = DB.builder()
@@ -362,5 +363,6 @@ router.post('/updateprofile', upload.single('file'), (req, res) => {
   });
   res.redirect('profile');
 });
+
 
 module.exports = router;
