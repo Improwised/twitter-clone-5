@@ -54,7 +54,7 @@ router.post('/register', upload.single('file'), (req, res, next) => {
       errors,
     });
   } else {
-    var photo = '';
+    let photo = '';
     if (req.file) {
       photo = req.file.filename;
     } else {
@@ -130,7 +130,7 @@ router.get('/index', (req, res) => {
 });
 
 router.get('/header', (req, res, next) => {
-  var query;
+  let query;
   const session = req.session;
   if (req.session.emailid) {
     query = DB.builder()
@@ -198,8 +198,8 @@ router.get('/header', (req, res, next) => {
   }
 });
 
-var filename = '';
 router.post('/header', uploadtweet.single('file'), (req, res, next) => {
+  let filename = '';
   if (req.file) {
     filename = req.file.filename;
   } else {
@@ -222,8 +222,9 @@ router.post('/header', uploadtweet.single('file'), (req, res, next) => {
   });
 });
 
-var query;
+
 router.get('/profile', (req, res, next) => {
+  let query;
   const session = req.session;
   if (req.session.emailid) {
     query = DB.builder()
