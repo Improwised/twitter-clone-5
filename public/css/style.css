@@ -40,10 +40,6 @@ a:hover#like {
   color:#ff0000;
 }
 
-.container{
-  margin-top: 30px;
-}
-
 /*cover page*/
 .start-temp{
   text-align:center;
@@ -71,9 +67,13 @@ a:hover#like {
 
 /*css for login and sign up forn */
 
-body,html {
+body {
   background: white !important;
   font-family: GillSans;
+}
+
+.site-footer {
+  flex: 1;
 }
 
 .wrapper {
@@ -109,4 +109,21 @@ body,html {
   border: 1px solid rgba(0,0,0,0.1);
 }
 
+::-webkit-input-placeholder {
+  font-size:20px !important;
+}
 
+::-webkit-input-name {
+  font-size:20px !important;
+}
+
+#deleteicon {
+  vertical-align: center;
+}
+
+.site{
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+
+}

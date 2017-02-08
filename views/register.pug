@@ -7,7 +7,7 @@ block content
         h3.indigo-text.text-darken-2 Join Today
         br
         br
-        input.form-control(type='text', name='fullname', placeholder='Enter your name', autofocus='',id='fullname')
+        input.form-control(type='text', name='fullname', placeholder ='Enter your name', autofocus='',id='fullname')
         -if(errors)
           each error in errors
             -if(error.param == 'fullname')
@@ -22,8 +22,8 @@ block content
           each error in errors
             -if(error.param == 'password')
               div= error.msg
-        label Select Profile Picture :
-        br
+        p(style="font-size:20px;").indigo-text.text-darken-2 Select Profile Picture :
+
         //- input.form-control(type='file', name='file' ,style = "margin : -5px 0px 10px 0px ;color : #00aced;" ,required )
         .file-field.input-field
           .btn.indigo
@@ -31,8 +31,8 @@ block content
             input(type='file', name='file', required)
           .file-path-wrapper
             input.file-path.validate(type='text', placeholder='Upload file')
-        h6.indigo-text.text-darken-2 Select Your Security Question :
-        br
+        p(style="font-size:20px;").indigo-text.text-darken-2 Select Your Security Question :
+
         select.dropdown-button.btn.indigo(name='question')
           option(value='bof') Birthplace of your father
           option(value='bom') Birthplace of your Mother
@@ -50,3 +50,7 @@ block content
         script.
           var question = document.getElementById("question");
           var returnvalue = question.options[question.selectedIndex].value;
+        br
+        label Already Having an Account?
+        a(href='login', style = "margin : 5px;") Click Here!
+        br
