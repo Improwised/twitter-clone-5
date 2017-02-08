@@ -22,20 +22,21 @@ block content
           each error in errors
             -if(error.param == 'password')
               div= error.msg
-        label Select Profile Picture :
         br
-        //- input.form-control(type='file', name='file' ,style = "margin : -5px 0px 10px 0px ;color : #00aced;" ,required )
+        label(style='font-size:15px;') Select Profile Picture :
+        br
         .file-field.input-field
           .btn.indigo
             span Browse
             input(type='file', name='file', required)
           .file-path-wrapper
             input.file-path.validate(type='text', placeholder='Upload file')
-        h6.indigo-text.text-darken-2 Select Your Security Question :
+        label(style='font-size:15px;') Select Your Security Question* :
+        br
         br
         select.dropdown-button.btn.indigo(name='question')
-          option(value='bof') Birthplace of your father
-          option(value='bom') Birthplace of your Mother
+          option(value='bof') Birth-place of your father
+          option(value='bom') Birth-place of your Mother
           option(value='fcc') Your Favourite Cartoon Character
           option(value='fmn') Your First Mobile-Number
           option(value='bf') Your Best Friend
@@ -46,6 +47,8 @@ block content
         button.waves-effect.waves-light.indigo.btn.btn-block(type='submit') SignUp
         br
         br
+        br
+        label(style='font-size:15px;') * :- Security question's answer will be helpul when you forget your password...
 
         script.
           var question = document.getElementById("question");

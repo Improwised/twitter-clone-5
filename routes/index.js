@@ -333,35 +333,43 @@ router.post('/unfollow', (req, res, next) => {
 
 router.get('/updateprofile', (req, res, next) => {
   const session = req.session;
-  const query = DB.builder()
-    .select()
-    .from('tbl_register')
-    .where('emailid = ? ', session.emailid)
-    .toParam();
-  DB.executeQuery(query, (error, results) => {
-    if (error) {
-      next(error);
-    }
-    res.render('updateprofile', { res: results.rows });
-  });
+  if (session.emailid) {
+    const query = DB.builder()
+      .select()
+      .from('tbl_register')
+      .where('emailid = ? ', session.emailid)
+      .toParam();
+    DB.executeQuery(query, (error, results) => {
+      if (error) {
+        next(error);
+      }
+      res.render('updateprofile', { res: results.rows });
+    });
+  } else {
+    res.render('login');
+  }
 });
 
 router.post('/updateprofile', upload.single('file'), (req, res) => {
   const session = req.session;
-  const query = DB.builder()
-    .update()
-      .table('tbl_register')
-      .set('fullname', req.body.fullname)
-      .set('emailid', req.body.emailid)
-      .set('password', req.body.password)
-      .where('emailid = ?', session.emailid)
-      .toParam();
-  DB.executeQuery(query, (error, next) => {
-    if (error) {
-      next(error);
-    }
-  });
-  return res.redirect('updateprofile');
+  if (session.emailid) {
+    const query = DB.builder()
+      .update()
+        .table('tbl_register')
+        .set('fullname', req.body.fullname)
+        .set('emailid', req.body.emailid)
+        .set('password', req.body.password)
+        .where('emailid = ?', session.emailid)
+        .toParam();
+    DB.executeQuery(query, (error, next) => {
+      if (error) {
+        next(error);
+      }
+    });
+    res.redirect('updateprofile');
+  } else {
+    res.render('login');
+  }
 });
 
 
@@ -430,9 +438,6 @@ router.get('/deleteaccount', (req, res, next) => {
 router.get('/resetpassword', (req, res) => {
   res.render('resetpassword');
 });
-router.get('/getpassword', (req, res) => {
-  res.render('getpassword');
-});
 
 router.post('/resetpassword', (req, res, next) => {
   const query = DB.builder()
@@ -447,7 +452,11 @@ router.post('/resetpassword', (req, res, next) => {
     if (error) {
       next(error);
     }
-    res.render('getpassword', { res: results.rows });
+    if (results.rowCount) {
+      res.render('getpassword', { res: results.rows });
+    } else {
+      res.redirect('resetpassword');
+    }
   });
 });
 

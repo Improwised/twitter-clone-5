@@ -8,7 +8,7 @@ block content
         .card-panel.deep-orange#lighten-7.lighten-5
           a(href='/profile')
             each user in username
-              .form-group
+              .form-group(align='center')
                 img.img-thumbnails(src='./images/profile/'+ user.image, style = "width: 200px; height:200px;")
                 br
                 h4.indigo-text#text-darken-2=user.fullname
@@ -19,7 +19,7 @@ block content
           .row
             .card-panel.deep-orange#lighten-7.lighten-5
               p
-                h5.indigo-text#text-darken-2=book.fullname + 'tweeted'
+                h5.indigo-text#text-darken-2=book.fullname + '...Tweeted'
                 br
                 br
                 span= book.t_tweetText
@@ -43,7 +43,7 @@ block content
               h5.indigo-text#text-darken-2= name.fullname
               form(method='post', action='/follow')
                 .form-group
-                  img.img-circle(src='./images/profile/'+ name.image,width ="100px" height="100px")
+                  img.img-circle(src='./images/profile/'+ name.image,width ="130px" height="125px")
                   br
                   input(type='hidden', name='myfollow', value = name.id)
                   br
