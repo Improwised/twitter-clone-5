@@ -1,9 +1,5 @@
 const should = require('should');
 
-// const request = require('supertest');
-
-// const server = require('../app');
-
 let request = require('supertest');
 
 request = request('http://localhost:3000');

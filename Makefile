@@ -12,6 +12,12 @@ JSON_SRC = $(shell find . -type f -name '*.json' ! -path './node_modules/*')
 lint:
 	jsonlint -q -c ${JSON_SRC}
 	eslint ${JS_SRC} ${ESLINT_ARGS}
-
+  
 test:
-	PGDB_DB=testdb mocha
+	export PGDB_TCP_PORT=5432
+	export PGDB_TCP_HOST=127.0.0.1
+	export PGDB_USER=riddhi
+	export PGDB_DB=twitter
+	export PGDB_DB=testdb
+	mocha
+

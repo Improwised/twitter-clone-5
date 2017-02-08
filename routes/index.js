@@ -95,24 +95,30 @@ router.post('/login', (req, res, next) => {
     req.checkBody('emailid', 'Email is required').notEmpty();
   }
   req.checkBody('password', 'Password is required').notEmpty();
-
-  const query = DB.builder()
-    .select()
-    .from('tbl_register')
-    .where('emailid = ? AND password = ?', emailid, password)
-    .toParam();
-  DB.executeQuery(query, (error, results) => {
-    if (error) {
-      next(error);
-    }
-    if (results.rowCount) {
-      session.emailid = emailid;
-      session.userid = results.rows[0].id;
-      res.redirect('header');
-    } else {
-      res.render('login');
-    }
-  });
+  const errors = req.validationErrors();
+  if (errors) {
+    res.render('login', {
+      errors,
+    });
+  } else {
+    const query = DB.builder()
+      .select()
+      .from('tbl_register')
+      .where('emailid = ? AND password = ?', emailid, password)
+      .toParam();
+    DB.executeQuery(query, (error, results) => {
+      if (error) {
+        next(error);
+      }
+      if (results.rowCount) {
+        session.emailid = emailid;
+        session.userid = results.rows[0].id;
+        res.redirect('header');
+      } else {
+        res.render('login');
+      }
+    });
+  }
 });
 
 router.get('/logout', (req, res) => {
@@ -239,6 +245,7 @@ router.get('/profile', (req, res, next) => {
       .where('emailid = ?', req.session.emailid)
       .order('t_time', false)
       .toParam();
+
     DB.executeQuery(query, (error, results) => {
       if (error) {
         next(error);
@@ -420,8 +427,9 @@ router.post('/profilepictureupload', upload.single('file'), (req, res) => {
 
 router.get('/deleteaccount', (req, res, next) => {
   const session = req.session;
+  let query;
   if (req.session.emailid) {
-    const query = DB.builder()
+    query = DB.builder()
       .delete()
       .from('tbl_register')
       .where('emailid = ?', session.emailid)
@@ -430,8 +438,28 @@ router.get('/deleteaccount', (req, res, next) => {
       if (error) {
         next(error);
       }
-      res.render('login');
     });
+    query = DB.builder()
+      .delete()
+      .from('tbl_tweet')
+      .where('t_userid = ?', session.userid)
+      .toParam();
+    DB.executeQuery(query, (error) => {
+      if (error) {
+        next(error);
+      }
+    });
+    query = DB.builder()
+      .delete()
+      .from('tbl_follower')
+      .where('f_userid = ?', session.userid)
+      .toParam();
+    DB.executeQuery(query, (error) => {
+      if (error) {
+        next(error);
+      }
+    });
+    res.render('login');
   }
 });
 
